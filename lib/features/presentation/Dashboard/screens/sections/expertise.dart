@@ -19,8 +19,8 @@ class ExpertiseSection extends StatelessWidget {
     (
       'Backend integration & services',
       'REST APIs and JSON, Firebase Authentication, application session '
-          'management, and the states a real product needs — loading, '
-          'error, empty and retry — plus secure local storage and network '
+          'management, and the states a real product needs  loading, '
+          'error, empty and retry  plus secure local storage and network '
           'connectivity handling.',
       ['REST APIs', 'Firebase Auth', 'Flutter Secure Storage'],
     ),

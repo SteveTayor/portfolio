@@ -158,7 +158,7 @@ class _LampPainter extends CustomPainter {
       ..strokeWidth = 1.6
       ..strokeCap = StrokeCap.round;
 
-    // Light pool (soft, neutral white — never gold/amber).
+    // Light pool (soft, neutral white  never gold/amber).
     if (on) {
       final pool = Rect.fromCenter(
         center: Offset(w / 2, h * 0.30),
@@ -263,7 +263,7 @@ class _ContactPanelState extends State<ContactPanel> {
     setState(() => _status = ContactFormStatus.submitting);
     try {
       // Default delivery: opens the visitor's mail client with the message
-      // prefilled — no server, no credentials. Replace `_sendViaMailto`
+      // prefilled  no server, no credentials. Replace `_sendViaMailto`
       // with a real service (Formspree, EmailJS, custom backend) to get
       // direct submission; see README section "Connecting the contact form".
       await _sendViaMailto();
@@ -282,7 +282,7 @@ class _ContactPanelState extends State<ContactPanel> {
       scheme: 'mailto',
       path: Profile.email,
       query:
-          'subject=${Uri.encodeComponent(_subject.text.isEmpty ? 'Portfolio inquiry — ${_name.text}' : _subject.text)}'
+          'subject=${Uri.encodeComponent(_subject.text.isEmpty ? 'Portfolio inquiry  ${_name.text}' : _subject.text)}'
           '&body=${Uri.encodeComponent(body)}',
     );
     final ok = await launchUrl(uri);
@@ -312,7 +312,7 @@ class _ContactPanelState extends State<ContactPanel> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Tell me about the project, the role, or the problem — I read '
+            'Tell me about the project, the role, or the problem  I read '
             'every message.',
             style: AppTextStyles.body(context, c.textSecondary),
           ),

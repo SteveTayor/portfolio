@@ -21,7 +21,7 @@ Live site: add your deployed URL here
 * Manrope for headings and Inter for body text
 * A shared design token system for colour, type, spacing and motion
 
-## Getting started
+<!-- ## Getting started
 
 Requirements: Flutter SDK 3.22 or newer on the stable channel, and Chrome for local development.
 
@@ -62,7 +62,7 @@ Content lives in data files, so the layout never needs editing to update it.
 * LinkedIn URL: `lib/core/constants/profile.dart`, field `linkedin`. The link stays hidden while the value is empty.
 * Years of experience: `lib/core/constants/profile.dart`, field `experienceSinceYear`. It drives the hero metadata.
 * Projects, wording and URLs: `lib/core/constants/project_data.dart`
-* Contact delivery: `lib/features/home/presentation/sections/contact_section.dart`, method `_sendViaMailto`
+* Contact delivery: `lib/features/home/presentation/sections/contact_section.dart`, method `_sendViaMailto` -->
 
 ### Connecting the contact form
 

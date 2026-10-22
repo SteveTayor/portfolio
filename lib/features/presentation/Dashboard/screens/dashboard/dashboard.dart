@@ -6,6 +6,15 @@ import '../../../../../core/responsive/responsive.dart';
 import '../../../../../core/theme/colors.dart';
 import '../../../../widgets/signal_line.dart';
 import '../../../../widgets/travelling_birid.dart';
+import '../sections/about.dart';
+import '../sections/contact.dart';
+import '../sections/experience.dart';
+import '../sections/expertise.dart';
+import '../sections/footer.dart';
+import '../sections/hero.dart';
+import '../sections/navigation.dart';
+import '../sections/process.dart';
+import '../sections/projects.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

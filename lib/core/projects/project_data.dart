@@ -10,10 +10,10 @@ final List<Project> kProjects = [
     category: 'Fintech / Payments',
     platforms: 'iOS & Android · live in production',
     summary:
-        'Sole architect and developer of a live fintech payment platform — payments, wallets, transactions, airtime and data services.',
+        'Sole architect and developer of a live fintech payment platform payments, wallets, transactions, airtime and data services.',
     role: 'Flutter Mobile Architect',
     problem:
-        'A fintech payment product needed a complete cross-platform application: wallet management, transactions, airtime and data services, and a dual-role user/agent system — shipped and maintainable in production.',
+        'A fintech payment product needed a complete cross-platform application: wallet management, transactions, airtime and data services, and a dual-role user/agent system  shipped and maintainable in production.',
     contribution:
         'Designed the system architecture and implemented the full application with BLoC state management across feature modules. Integrated third-party REST JSON APIs with JWT token management and refresh flows, plus real-time transaction sync over WebSocket for live wallet updates. Built interactive financial dashboards and animated transaction feeds with CustomPainter and AnimationController, and architected dual-role onboarding with BVN and email verification, KYC and encrypted wallet management.',
     approach:
@@ -39,7 +39,7 @@ final List<Project> kProjects = [
     category: 'Digital Health',
     platforms: 'iOS & Android · deployed to both stores',
     summary:
-        'Lead developer of a HIPAA-aligned digital health platform — medication adherence, reminders and clinical data visualisation.',
+        'Lead developer of a HIPAA-aligned digital health platform  medication adherence, reminders and clinical data visualisation.',
     role: 'Lead Flutter Developer',
     problem:
         'A digital health platform needed a maintainable Flutter application for medication adherence: animated clinical timelines, time-critical patient reminders, and strict protection of sensitive health data.',

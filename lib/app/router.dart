@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import '../core/projects/project_data.dart';
 import '../core/projects/project_model.dart';
+import '../features/presentation/Dashboard/screens/dashboard/dashboard.dart';
 import '../features/presentation/projects/screens/project_details.dart';
 
 GoRouter buildRouter() {

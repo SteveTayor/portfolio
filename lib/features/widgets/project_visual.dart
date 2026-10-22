@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/projects/project_model.dart';
 
 /// Abstract, project-specific visual compositions for the carousel.
-/// Every frame uses fictional, clearly illustrative sample data — never
+/// Every frame uses fictional, clearly illustrative sample data  never
 /// presented as real financial or clinical results.
 class ProjectVisual extends StatelessWidget {
   final Project project;

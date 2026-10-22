@@ -27,7 +27,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
       animation: themeController,
       builder: (context, _) {
         return MaterialApp.router(
-          title: 'Ayomide Arowolo — Flutter Developer',
+          title: 'Portfolio Flutter Developer',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.build(AppColors.light),
           darkTheme: AppTheme.build(AppColors.dark),

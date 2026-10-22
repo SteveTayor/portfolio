@@ -23,7 +23,7 @@ class ProjectsSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'SELECTED WORK / 01—',
+                'SELECTED WORK / 01',
                 style: AppTextStyles.eyebrow(c.accentTeal),
               ),
               const SizedBox(height: 16),

@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/constants/profile.dart';
+import '../../../../../core/projects/project_data.dart';
 import '../../../../../core/responsive/responsive.dart';
 import '../../../../../core/theme/colors.dart';
 import '../../../../../core/theme/text_styles.dart';
+import '../../../../widgets/project_visual.dart';
 
 class HeroSection extends StatefulWidget {
   final VoidCallback onExploreWork;
@@ -34,10 +35,9 @@ class _HeroSectionState extends State<HeroSection>
     super.dispose();
   }
 
-  Animation<double> get _stagger(double start, double end) => CurvedAnimation(
-        parent: _intro,
-        curve: Interval(start, end, curve: Curves.easeOutCubic),
-      );
+  Animation<double> _stagger(double start, double end) => _intro.drive(
+    CurveTween(curve: Interval(start, end, curve: Curves.easeOutCubic)),
+  );
 
   Future<void> _openResume() async {
     final uri = Uri.parse('assets/resume.pdf');
@@ -123,15 +123,9 @@ class _HeroSectionState extends State<HeroSection>
             ),
           ),
           const SizedBox(height: 22),
-          FadeTransition(
-            opacity: _stagger(0.48, 0.66),
-            child: meta,
-          ),
+          FadeTransition(opacity: _stagger(0.48, 0.66), child: meta),
           const SizedBox(height: 30),
-          FadeTransition(
-            opacity: _stagger(0.58, 0.8),
-            child: ctas,
-          ),
+          FadeTransition(opacity: _stagger(0.58, 0.8), child: ctas),
         ],
       );
     }

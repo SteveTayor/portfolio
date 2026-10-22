@@ -70,7 +70,7 @@ class ProjectDetailPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Role — ${project.role}',
+                  'Role  ${project.role}',
                   style: AppTextStyles.body(
                     context,
                     c.textPrimary,

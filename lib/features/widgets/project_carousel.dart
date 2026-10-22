@@ -218,7 +218,7 @@ class _CarouselCard extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         Text(
-          'Role — ${project.role}',
+          'Role  ${project.role}',
           style: AppTextStyles.body(
             context,
             c.textPrimary,

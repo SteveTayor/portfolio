@@ -85,7 +85,7 @@ class ProcessSection extends StatelessWidget {
                 ),
               const SizedBox(height: 12),
               Text(
-                'The shape of the process adapts to each engagement — this '
+                'The shape of the process adapts to each engagement  this '
                 'is the default, not a rigid contract.',
                 style: AppTextStyles.body(
                   context,

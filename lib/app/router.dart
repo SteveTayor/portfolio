@@ -1,29 +1,37 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import '../core/projects/project_data.dart';
-import '../core/projects/project_model.dart';
-import '../features/presentation/Dashboard/screens/dashboard/dashboard.dart';
-import '../features/presentation/projects/screens/project_details.dart';
+
+import '../core/content/projects.dart';
+import '../features/home/home_page.dart';
+import '../features/work/project_page.dart';
 
 GoRouter buildRouter() {
   return GoRouter(
+    initialLocation: '/',
     routes: [
       GoRoute(
         path: '/',
-        name: 'home',
-        builder: (context, state) => const HomePage(),
+        pageBuilder: (context, state) => _fade(state, const HomePage()),
       ),
       GoRoute(
-        path: '/projects/:id',
-        name: 'project',
-        builder: (context, state) {
-          final id = state.pathParameters['id'];
-          final Project project = kProjects.firstWhere(
-            (p) => p.id == id,
-            orElse: () => kProjects.first,
-          );
-          return ProjectDetailPage(project: project);
+        path: '/work/:id',
+        pageBuilder: (context, state) {
+          final project = Projects.byId(state.pathParameters['id']);
+          return _fade(state, ProjectPage(project: project));
         },
       ),
     ],
+    errorPageBuilder: (context, state) => _fade(state, const HomePage()),
+  );
+}
+
+CustomTransitionPage<void> _fade(GoRouterState state, Widget child) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionDuration: const Duration(milliseconds: 360),
+    transitionsBuilder: (context, animation, secondary, page) {
+      return FadeTransition(opacity: animation, child: page);
+    },
   );
 }

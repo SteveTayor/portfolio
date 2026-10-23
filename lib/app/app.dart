@@ -1,40 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/core/theme/theme_controller.dart';
+import 'package:go_router/go_router.dart';
+
 import '../core/theme/app_theme.dart';
-import '../core/theme/colors.dart';
+import '../core/theme/palette.dart';
+import '../core/theme/theme_controller.dart';
 import 'router.dart';
 
-/// App-lifetime theme controller, reachable from the navigation bar.
-final ThemeController themeController = ThemeController();
-
 class PortfolioApp extends StatefulWidget {
-  const PortfolioApp({super.key});
+  const PortfolioApp({super.key, required this.theme});
+
+  final ThemeController theme;
 
   @override
   State<PortfolioApp> createState() => _PortfolioAppState();
 }
 
 class _PortfolioAppState extends State<PortfolioApp> {
+  // Created exactly once. Rebuilding the router on every theme change is what
+  // caused the framework assertion in the previous version.
+  late final GoRouter _router = buildRouter();
+
+  static final ThemeData _light = AppTheme.build(Palette.light);
+  static final ThemeData _dark = AppTheme.build(Palette.dark);
+
   @override
-  void initState() {
-    super.initState();
-    themeController.load();
+  void dispose() {
+    _router.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: themeController,
-      builder: (context, _) {
-        return MaterialApp.router(
-          title: 'Portfolio Flutter Developer',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.build(AppColors.light),
-          darkTheme: AppTheme.build(AppColors.dark),
-          themeMode: themeController.mode,
-          routerConfig: buildRouter(),
-        );
-      },
+    return ThemeScope(
+      controller: widget.theme,
+      child: ListenableBuilder(
+        listenable: widget.theme,
+        builder: (context, _) {
+          return MaterialApp.router(
+            title: 'Ayomide Arowolo, Flutter Developer',
+            debugShowCheckedModeBanner: false,
+            theme: _light,
+            darkTheme: _dark,
+            themeMode: widget.theme.mode,
+            routerConfig: _router,
+          );
+        },
+      ),
     );
   }
 }

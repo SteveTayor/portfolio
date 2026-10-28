@@ -1,9 +1,6 @@
-enum ProjectVisualStyle { fintech, health, auth, audio, license }
-
 class Project {
   const Project({
     required this.id,
-    required this.number,
     required this.title,
     required this.category,
     required this.platforms,
@@ -13,12 +10,11 @@ class Project {
     required this.contribution,
     required this.approach,
     required this.technologies,
-    required this.style,
+    required this.images,
     this.outcome,
   });
 
   final String id;
-  final int number;
   final String title;
   final String category;
   final String platforms;
@@ -28,29 +24,41 @@ class Project {
   final String contribution;
   final String approach;
   final List<String> technologies;
-  final ProjectVisualStyle style;
+
+  /// Real screenshots, first one is the cover.
+  final List<String> images;
 
   /// Only ever a verified outcome. Null when nothing is confirmed.
   final String? outcome;
 }
 
+List<String> _shots(String id, int count) => [
+      for (var i = 1; i <= count; i++) 'assets/projects/$id/$i.webp',
+    ];
+
 abstract final class Projects {
+  /// Projects with screenshots, in display order.
+  static final List<Project> shown =
+      all.where((p) => p.images.isNotEmpty).toList();
+
   static Project byId(String? id) =>
-      all.firstWhere((p) => p.id == id, orElse: () => all.first);
+      shown.firstWhere((p) => p.id == id, orElse: () => shown.first);
 
-  static Project next(Project current) =>
-      all[current.number % all.length];
+  static Project next(Project current) {
+    final i = shown.indexWhere((p) => p.id == current.id);
+    return shown[(i + 1) % shown.length];
+  }
 
-  static const List<Project> all = [
+  static final List<Project> all = [
     Project(
       id: 'bundlegram',
-      number: 1,
       title: 'Bundlegram',
       category: 'Fintech and Payments',
       platforms: 'iOS and Android, live in production',
       summary:
           'Sole architect and developer of a live fintech payment platform '
-          'covering payments, wallets, transactions, airtime and data services.',
+          'covering payments, wallets, transactions, airtime and data '
+          'services.',
       role: 'Flutter Mobile Architect',
       problem:
           'A fintech payment product needed a complete cross platform '
@@ -82,12 +90,11 @@ abstract final class Projects {
         'Firebase',
         'Secure Storage',
       ],
-      style: ProjectVisualStyle.fintech,
+      images: _shots('bundlegram', 6),
       outcome: 'Live on the App Store and Google Play.',
     ),
     Project(
       id: 'medherence',
-      number: 2,
       title: 'Medherence',
       category: 'Digital Health',
       platforms: 'iOS and Android, deployed to both stores',
@@ -123,12 +130,11 @@ abstract final class Projects {
         'Local Notifications',
         'Alarm Manager',
       ],
-      style: ProjectVisualStyle.health,
+      images: _shots('medherence', 6),
       outcome: 'Deployed to the App Store and Google Play.',
     ),
     Project(
       id: 'tradelenda',
-      number: 3,
       title: 'TradeLenda',
       category: 'Fintech, Authentication and KYC',
       platforms: 'iOS and Android, live application',
@@ -140,7 +146,8 @@ abstract final class Projects {
       problem:
           'A live fintech application needed its user authentication '
           'experience built, loan application and investment workflows '
-          'implemented, and identity verification strengthened against fraud.',
+          'implemented, and identity verification strengthened against '
+          'fraud.',
       contribution:
           'Implemented the Firebase Authentication workflow, contributing to '
           'the sign in and authentication experience. Built the interface '
@@ -158,12 +165,40 @@ abstract final class Projects {
         'REST APIs',
         'KYC and Liveness API',
       ],
-      style: ProjectVisualStyle.auth,
+      images: _shots('tradelenda', 4),
+    ),
+    Project(
+      id: 'doorbell',
+      title: 'Doorbell',
+      category: 'Video and Audio Calling',
+      platforms: 'Cross platform mobile',
+      summary:
+          'A calling app built around a personal QR code: share it, and '
+          'anyone who scans it can start a call with you.',
+      role: 'Mobile Developer, DoWell UX Living Lab',
+      problem:
+          'Starting a call usually means exchanging contact details first. '
+          'The app lets a person share a personal QR code so that others can '
+          'start a call instantly.',
+      contribution:
+          'Built the WebSocket based signalling for the video and audio call '
+          'flow, a QR scanner with CustomPainter overlays, Firebase '
+          'integration, and automated end to end testing pipelines.',
+      approach:
+          'WebSocket signalling for call setup, QR codes for connecting '
+          'people, and Firebase services for supporting functionality.',
+      technologies: [
+        'Flutter',
+        'WebSocket',
+        'QR scanning',
+        'CustomPainter',
+        'Firebase',
+      ],
+      images: _shots('doorbell', 5),
     ),
     Project(
       id: 'musicchatroom',
-      number: 4,
-      title: 'Music and Chat Room',
+      title: 'Music Chat Room',
       category: 'Real time Audio and Social',
       platforms: 'Cross platform mobile',
       summary:
@@ -188,11 +223,12 @@ abstract final class Projects {
         'Cloud Functions',
         'WebSocket',
       ],
-      style: ProjectVisualStyle.audio,
+      images: _shots('musicchatroom', 1),
     ),
-    Project(
+    // Add screenshots under assets/projects/legalzard and list them in
+    // pubspec.yaml, then set images: _shots('legalzard', n) to show this card.
+    const Project(
       id: 'legalzard',
-      number: 5,
       title: 'Legalzard',
       category: 'Developer Tooling',
       platforms: 'Cross platform mobile',
@@ -213,7 +249,7 @@ abstract final class Projects {
           'API integration, and Firebase services for supporting '
           'functionality.',
       technologies: ['Flutter', 'BLoC', 'REST APIs', 'Firebase'],
-      style: ProjectVisualStyle.license,
+      images: <String>[],
     ),
   ];
 }

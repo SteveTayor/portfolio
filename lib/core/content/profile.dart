@@ -1,20 +1,19 @@
 /// Verified professional identity. Edit values here, never in the layout.
 abstract final class Profile {
   static const String name = 'Ayomide Arowolo';
-  static const String title = 'Flutter Mobile Developer';
+  static const String title = 'Flutter Developer';
   static const String email = 'ayomidearose75@gmail.com';
   static const String github = 'https://github.com/SteveTayor';
+  static const String linkedin =
+      'https://linkedin.com/in/ayomidestephen-arowolo-636bb5242';
 
-  /// Leave empty to hide the LinkedIn link everywhere.
-  static const String linkedin = '';
+  /// Contact form endpoint (Formspree). The id is public by design.
+  static const String formEndpoint = 'https://formspree.io/f/xjygnevj';
 
   static const String location = 'Nigeria';
-  static const String since = 'Since 2022';
 
-  static const String intro =
-      'A Flutter developer who builds dependable cross platform apps, '
-      'integrates the services behind them, and cares about the details that '
-      'matter after the design is signed off.';
+  /// One short, specific line under the name. Not a summary of a CV.
+  static const String line = 'Fintech, health and communication apps.';
 
   static const String closing =
       'Thoughtful software starts with understanding the problem.';

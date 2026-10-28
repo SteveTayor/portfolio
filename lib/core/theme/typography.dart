@@ -25,7 +25,7 @@ abstract final class Typo {
     Palette p, {
     double size = 17,
     Color? color,
-    double height = 1.65,
+    double height = 1.35,
     FontWeight weight = FontWeight.w400,
   }) {
     return GoogleFonts.inter(

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/palette.dart';
+import 'intro/hero_composition.dart';
 import 'intro/intro_stage.dart';
 import 'sections/about_section.dart';
 import 'sections/contact_section.dart';
 import 'sections/experience_section.dart';
-import 'sections/expertise_section.dart';
-import 'sections/footer_section.dart';
 import 'sections/process_section.dart';
+import 'sections/technologies_section.dart';
 import 'sections/work_section.dart';
+import 'widgets/flying_bird.dart';
 import 'widgets/nav_bar.dart';
-import 'widgets/signal_bird.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,10 +28,21 @@ class _HomePageState extends State<HomePage> {
       List<GlobalKey>.generate(6, (_) => GlobalKey());
 
   bool _menu = false;
+  bool _warmed = false;
 
-  // Section order: 0 work, 1 about, 2 expertise, 3 experience, 4 process,
-  // 5 contact.
+  // Section order: 0 work, 1 about, 2 technologies, 3 experience, 4 process,
+  // 5 contact. Navigation index 4 (Contact) maps to section 5.
   static const int _contact = 5;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_warmed) return;
+    _warmed = true;
+    // Load the portrait before the laptop screen lights up.
+    precacheImage(const AssetImage(kPortraitAsset), context)
+        .catchError((Object _) {});
+  }
 
   @override
   void dispose() {
@@ -81,15 +92,19 @@ class _HomePageState extends State<HomePage> {
                 ),
                 KeyedSubtree(key: _keys[0], child: const WorkSection()),
                 KeyedSubtree(key: _keys[1], child: const AboutSection()),
-                KeyedSubtree(key: _keys[2], child: const ExpertiseSection()),
+                KeyedSubtree(key: _keys[2], child: const TechnologiesSection()),
                 KeyedSubtree(key: _keys[3], child: const ExperienceSection()),
                 KeyedSubtree(key: _keys[4], child: const ProcessSection()),
-                KeyedSubtree(key: _keys[5], child: const ContactSection()),
-                const FooterSection(),
+                KeyedSubtree(
+                  key: _keys[5],
+                  child: ContactSection(onNav: _goTo),
+                ),
               ],
             ),
           ),
-          Positioned.fill(child: SignalBird(scroll: _scroll, start: travel + vh)),
+          Positioned.fill(
+            child: FlyingBird(scroll: _scroll, start: travel + vh),
+          ),
           Positioned(
             top: 0,
             left: 0,

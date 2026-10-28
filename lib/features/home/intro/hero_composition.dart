@@ -1,17 +1,16 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import '../../../core/content/profile.dart';
-import '../../../core/content/projects.dart';
 import '../../../core/layout/responsive.dart';
 import '../../../core/theme/palette.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/pressable.dart';
-import '../../work/project_visual.dart';
 
-/// The hero. The same widget is shown on the laptop screen (at 1280 by 800)
-/// and as the real first section, so the zoom lands on an identical frame.
+const String kPortraitAsset = 'assets/portrait.webp';
+
+/// The first frame. A name set large, one short line, and a portrait in an
+/// arch. The same widget is shown on the laptop screen (at 1280 by 800) and as
+/// the real hero, so the zoom lands on an identical frame.
 class HeroComposition extends StatelessWidget {
   const HeroComposition({
     super.key,
@@ -32,121 +31,171 @@ class HeroComposition extends StatelessWidget {
         final w = c.maxWidth;
         final mobile = w < Bp.mobile;
         final padX = Bp.pad(w);
-        final head = mobile ? 46.0 : (w >= 1240 ? 78.0 : (w >= 1080 ? 68.0 : 56.0));
+        final nameSize = mobile
+            ? (w < 380 ? 64.0 : 76.0)
+            : (w >= 1240 ? 150.0 : (w >= 1080 ? 124.0 : 96.0));
 
-        Widget copy(double width) {
-          return SizedBox(
-            width: width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  Profile.title,
-                  style: Typo.label(p, color: p.accent, size: 14),
-                ),
-                SizedBox(height: mobile ? 18 : 26),
-                Text.rich(
-                  TextSpan(
-                    style: Typo.display(p, head, height: 1.02),
-                    children: [
-                      const TextSpan(
-                        text: 'I build thoughtful mobile products that work in the ',
-                      ),
-                      TextSpan(
-                        text: 'real world.',
-                        style: Typo.display(
-                          p,
-                          head,
-                          height: 1.02,
-                          color: p.accent,
-                          style: FontStyle.italic,
-                        ),
-                      ),
-                    ],
+        Widget copy() {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(width: 36, height: 1, color: p.accent),
+                  const SizedBox(width: 14),
+                  Text(
+                    Profile.title,
+                    style: Typo.label(p, color: p.accent, size: 14),
                   ),
+                ],
+              ),
+              SizedBox(height: mobile ? 18 : 28),
+              Text('Ayomide', style: Typo.display(p, nameSize, height: 0.92)),
+              Text(
+                'Arowolo',
+                style: Typo.display(
+                  p,
+                  nameSize,
+                  height: 0.92,
+                  color: p.accent,
+                  style: FontStyle.italic,
                 ),
-                const SizedBox(height: 26),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 480),
-                  child: Text(
-                    Profile.intro,
-                    style: Typo.body(p, size: mobile ? 16 : 18),
+              ),
+              SizedBox(height: mobile ? 18 : 30),
+              Text(
+                Profile.line,
+                style: Typo.body(p, size: mobile ? 17 : 20, height: 1.4),
+              ),
+              SizedBox(height: mobile ? 22 : 34),
+              Wrap(
+                spacing: 28,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  PrimaryButton(
+                    label: 'See the work',
+                    onTap: interactive ? onWork : null,
                   ),
-                ),
-                const SizedBox(height: 32),
-                Wrap(
-                  spacing: 28,
-                  runSpacing: 8,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    PrimaryButton(
-                      label: 'View selected work',
-                      onTap: interactive ? onWork : null,
-                    ),
-                    TextLink(
-                      label: 'Get in touch',
-                      onTap: interactive ? onContact : null,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 34),
-                Wrap(
-                  spacing: 28,
-                  runSpacing: 6,
-                  children: [
-                    Text(Profile.since, style: Typo.label(p)),
-                    Text('iOS and Android', style: Typo.label(p)),
-                    Text(Profile.location, style: Typo.label(p)),
-                  ],
-                ),
-              ],
-            ),
+                  TextLink(
+                    label: 'Get in touch',
+                    onTap: interactive ? onContact : null,
+                  ),
+                ],
+              ),
+            ],
           );
         }
 
         if (mobile) {
           return Padding(
-            padding: EdgeInsets.fromLTRB(padX, 104, padX, 32),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.topLeft,
-              child: copy(w - padX * 2),
+            padding: EdgeInsets.fromLTRB(padX, 96, padX, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(width: w - padX * 2, child: copy()),
+                ),
+                const SizedBox(height: 22),
+                const Expanded(child: PortraitArch(fillWidth: true)),
+              ],
             ),
           );
         }
 
         return Padding(
-          padding: EdgeInsets.fromLTRB(padX, 112, padX, 44),
+          padding: EdgeInsets.fromLTRB(padX, 104, padX, 40),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                flex: 11,
+                flex: 13,
                 child: LayoutBuilder(
                   builder: (context, cc) => FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerLeft,
-                    child: copy(cc.maxWidth),
+                    child: SizedBox(width: cc.maxWidth, child: copy()),
                   ),
                 ),
               ),
-              const SizedBox(width: 48),
-              Expanded(
-                flex: 9,
-                child: LayoutBuilder(
-                  builder: (context, cc) {
-                    final h = math.min(cc.maxHeight, cc.maxWidth / 0.74);
-                    return Center(
-                      child: ProjectDevices(
-                        style: ProjectVisualStyle.fintech,
-                        height: h,
-                      ),
-                    );
-                  },
-                ),
-              ),
+              const SizedBox(width: 40),
+              const Expanded(flex: 9, child: PortraitArch()),
             ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// The portrait inside an arch, with a thin outline offset behind it.
+class PortraitArch extends StatelessWidget {
+  const PortraitArch({super.key, this.fillWidth = false});
+
+  final bool fillWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = Palette.of(context);
+    return LayoutBuilder(
+      builder: (context, c) {
+        var h = c.maxHeight;
+        var w = fillWidth ? c.maxWidth : h * 0.8;
+        if (w > c.maxWidth) {
+          w = c.maxWidth;
+          if (!fillWidth) h = w / 0.8;
+        }
+        final r = w / 2;
+        return Align(
+          alignment: fillWidth ? Alignment.bottomCenter : Alignment.center,
+          child: SizedBox(
+            width: w,
+            height: h,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  left: 16,
+                  right: -16,
+                  top: -14,
+                  bottom: 14,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: p.border),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(r),
+                        bottom: const Radius.circular(28),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(r),
+                      bottom: const Radius.circular(28),
+                    ),
+                    child: Image.asset(
+                      kPortraitAsset,
+                      fit: BoxFit.cover,
+                      alignment: const Alignment(0.1, -0.5),
+                      gaplessPlayback: true,
+                      frameBuilder: (context, child, frame, sync) =>
+                          AnimatedOpacity(
+                        opacity: (sync || frame != null) ? 1 : 0,
+                        duration: const Duration(milliseconds: 600),
+                        child: child,
+                      ),
+                      errorBuilder: (context, e, s) =>
+                          ColoredBox(color: p.surface),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -181,7 +230,7 @@ class ScreenFace extends StatelessWidget {
                       for (final l in const [
                         'Work',
                         'About',
-                        'Expertise',
+                        'Technologies',
                         'Experience',
                         'Contact',
                       ])

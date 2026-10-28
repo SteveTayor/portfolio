@@ -8,7 +8,9 @@ import '../../core/theme/palette.dart';
 import '../../core/theme/typography.dart';
 import '../../core/widgets/pressable.dart';
 import '../../core/widgets/reveal.dart';
+import '../../core/widgets/stage.dart';
 import '../home/sections/footer_section.dart';
+import 'project_overlay.dart';
 import 'project_visual.dart';
 
 class ProjectPage extends StatelessWidget {
@@ -39,28 +41,25 @@ class ProjectPage extends StatelessWidget {
             ),
             Frame(
               child: Padding(
-                padding: const EdgeInsets.only(top: 72, bottom: 96),
+                padding: const EdgeInsets.only(top: 64, bottom: 72),
                 child: LayoutBuilder(
                   builder: (context, c) {
                     final stacked = c.maxWidth < 900;
                     final intro = Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          project.number.toString().padLeft(2, '0'),
-                          style: Typo.label(p, color: p.accent, size: 14),
-                        ),
+                        Text(project.category,
+                            style: Typo.label(p, color: p.accent, size: 14)),
                         const SizedBox(height: 14),
                         Text(project.title,
-                            style: Typo.display(p, stacked ? 56 : 96, height: 1.0)),
-                        const SizedBox(height: 16),
-                        Text('${project.category}. ${project.platforms}.',
-                            style: Typo.label(p, size: 14)),
-                        const SizedBox(height: 28),
+                            style: Typo.display(p, stacked ? 60 : 100, height: 0.98)),
+                        const SizedBox(height: 18),
+                        Text(project.platforms, style: Typo.label(p, size: 14)),
+                        const SizedBox(height: 26),
                         ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 520),
                           child: Text(project.summary,
-                              style: Typo.body(p, size: 19)),
+                              style: Typo.body(p, size: 19, height: 1.45)),
                         ),
                         const SizedBox(height: 18),
                         Text(project.role,
@@ -68,27 +67,16 @@ class ProjectPage extends StatelessWidget {
                       ],
                     );
                     final plate = Container(
-                      height: stacked ? 460 : 640,
+                      height: stacked ? 460 : 620,
+                      clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         color: p.surface,
                         borderRadius: BorderRadius.circular(28),
                         border: Border.all(color: p.border),
                       ),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: ProjectDevices(
-                              style: project.style,
-                              height: stacked ? 340 : 520,
-                            ),
-                          ),
-                          Positioned(
-                            left: 22,
-                            bottom: 16,
-                            child: Text('Illustrative interface',
-                                style: Typo.label(p, size: 12)),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: ProjectThumb(project: project),
                       ),
                     );
                     if (stacked) {
@@ -100,10 +88,13 @@ class ProjectPage extends StatelessWidget {
                     return Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(flex: 5, child: Padding(
-                          padding: const EdgeInsets.only(right: 56),
-                          child: intro,
-                        )),
+                        Expanded(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 56),
+                            child: intro,
+                          ),
+                        ),
                         Expanded(flex: 6, child: plate),
                       ],
                     );
@@ -117,10 +108,7 @@ class ProjectPage extends StatelessWidget {
                   _Block(title: 'The problem', body: project.problem),
                   _Block(title: 'My contribution', body: project.contribution),
                   _Block(title: 'Approach', body: project.approach),
-                  _Block(
-                    title: 'Technology',
-                    body: project.technologies.join(', '),
-                  ),
+                  _Block(title: 'Technology', body: project.technologies.join(', ')),
                   if (project.outcome != null)
                     _Block(title: 'Outcome', body: project.outcome!),
                   Container(height: 1, color: p.border),
@@ -129,32 +117,52 @@ class ProjectPage extends StatelessWidget {
             ),
             Frame(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 64),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Next project', style: Typo.label(p)),
-                          const SizedBox(height: 8),
-                          Pressable(
-                            label: 'Next project, ${next.title}',
-                            onTap: () => context.go('/work/${next.id}'),
-                            builder: (context, on) => Text(
-                              next.title,
-                              style: Typo.display(p, 56,
-                                  color: on ? p.accent : p.text),
-                            ),
+                padding: const EdgeInsets.only(top: 72, bottom: 24),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    spacing: 20,
+                    runSpacing: 20,
+                    children: [
+                      for (var i = 0; i < project.images.length; i++)
+                        Pressable(
+                          label: 'Open screen ${i + 1}',
+                          onTap: () => showProjectOverlay(context, project),
+                          builder: (context, on) => AnimatedOpacity(
+                            duration: const Duration(milliseconds: 200),
+                            opacity: on ? 1 : 0.92,
+                            child: PhoneShot(asset: project.images[i], width: 170),
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            const FooterSection(),
+            Frame(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 72),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Next project', style: Typo.label(p)),
+                      const SizedBox(height: 8),
+                      Pressable(
+                        label: 'Next project, ${next.title}',
+                        onTap: () => context.go('/work/${next.id}'),
+                        builder: (context, on) => Text(
+                          next.title,
+                          style: Typo.display(p, 64, color: on ? p.accent : p.text),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const StageBlock(child: FooterSection()),
           ],
         ),
       ),
@@ -181,7 +189,7 @@ class _Block extends StatelessWidget {
           builder: (context, c) {
             final stacked = c.maxWidth < 900;
             final head = Text(title, style: Typo.display(p, stacked ? 34 : 40));
-            final text = Text(body, style: Typo.body(p, size: 18));
+            final text = Text(body, style: Typo.body(p, size: 18, height: 1.5));
             if (stacked) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -14,6 +14,14 @@ class Note {
 }
 
 abstract final class Story {
+  /// Words for the moving technology bands.
+  static const List<String> bandOne = [
+    'Flutter', 'Dart', 'BLoC', 'Riverpod', 'Clean Architecture', 'CustomPainter',
+  ];
+  static const List<String> bandTwo = [
+    'REST APIs', 'WebSocket', 'Firebase', 'JWT', 'Secure Storage', 'Continuous delivery',
+  ];
+
   static const String aboutOne =
       'I approach development as a product problem as much as an engineering '
       'problem. A good feature needs to be understandable to its users, fit '
@@ -43,14 +51,14 @@ abstract final class Story {
           'component design, state management, responsive layouts, '
           'navigation and routing, and theme systems that keep the interface '
           'consistent.',
-      ['Flutter', 'Dart', 'BLoC', 'Riverpod', 'go_router'],
+      ['Flutter', 'Dart', 'BLoC', 'Riverpod', 'go_router', 'Clean Architecture', 'CustomPainter', 'AnimationController'],
     ),
     Note(
       'Backend integration and services',
       'REST APIs and JSON, Firebase Authentication, session management, and '
           'the states a real product needs: loading, error, empty and retry, '
           'plus secure local storage and network connectivity handling.',
-      ['REST APIs', 'WebSocket', 'Firebase', 'JWT', 'Secure Storage'],
+      ['REST APIs', 'WebSocket', 'Firebase Authentication', 'Firestore', 'Cloud Functions', 'JWT', 'Secure Storage', 'Paystack SDK', 'KYC and liveness APIs'],
     ),
     Note(
       'Quality, maintenance and delivery',
@@ -58,7 +66,7 @@ abstract final class Story {
           'shipped products, resolving interface and state issues, handling '
           'asynchronous data, and Git based development with testing across '
           'supported devices.',
-      ['Git', 'DevTools', 'Unit and widget testing', 'Continuous delivery'],
+      ['Git', 'DevTools profiling', 'Unit and widget testing', 'Continuous delivery', 'Local Notifications', 'Alarm Manager'],
     ),
   ];
 

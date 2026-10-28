@@ -9,6 +9,9 @@ import '../../../core/widgets/section.dart';
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});
 
+  /// Dates are hidden on purpose. Set to true to show them again.
+  static const bool showDates = false;
+
   @override
   Widget build(BuildContext context) {
     final p = Palette.of(context);
@@ -32,16 +35,18 @@ class ExperienceSection extends StatelessWidget {
                 child: LayoutBuilder(
                   builder: (context, c) {
                     final stacked = c.maxWidth < 900;
-                    final when = Text(r.period, style: Typo.label(p, size: 14));
+                    final when = Text(showDates ? r.period : r.org,
+                        style: Typo.label(p, size: 14, color: showDates ? p.muted : p.accent));
                     final what = Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(r.title, style: Typo.display(p, stacked ? 32 : 38)),
-                        const SizedBox(height: 6),
-                        Text(r.org,
-                            style: Typo.body(p, size: 15, color: p.accent)),
+                        if (showDates) ...[
+                          const SizedBox(height: 6),
+                          Text(r.org, style: Typo.body(p, size: 15, color: p.accent)),
+                        ],
                         const SizedBox(height: 16),
-                        Text(r.summary, style: Typo.body(p, size: 16)),
+                        Text(r.summary, style: Typo.body(p, size: 16, height: 1.5)),
                       ],
                     );
                     if (stacked) {

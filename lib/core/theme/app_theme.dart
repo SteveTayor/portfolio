@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'palette.dart';
 
 abstract final class AppTheme {
+  /// The dark theme, built once, for sections that stay dark in both modes.
+  static final ThemeData stage = build(Palette.dark);
+
   static ThemeData build(Palette p) {
     final scheme = ColorScheme.fromSeed(
       seedColor: p.accent,

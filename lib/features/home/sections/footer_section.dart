@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/content/profile.dart';
 import '../../../core/layout/responsive.dart';
 import '../../../core/links.dart';
+import '../../../core/resume/resume_download.dart';
 import '../../../core/theme/palette.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/widgets/pressable.dart';
@@ -46,11 +47,12 @@ class FooterSection extends StatelessWidget {
             if (Profile.linkedin.isNotEmpty)
               TextLink(label: 'LinkedIn', size: 15, onTap: () => openExternal(Profile.linkedin)),
             TextLink(label: 'Email', size: 15, onTap: () => openExternal('mailto:${Profile.email}')),
+            TextLink(label: 'Download résumé', size: 15, onTap: downloadResume),
           ]);
 
           final closing = Text(
             Profile.closing,
-            style: Typo.display(p, stacked ? 38 : 56, height: 1.05),
+            style: Typo.display(p, stacked ? 34 : 48, height: 1.05),
           );
 
           return Padding(
@@ -88,7 +90,7 @@ class FooterSection extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       Profile.name,
-                      style: Typo.display(p, 260, height: 0.9, color: p.text.withAlpha(26)),
+                      style: Typo.display(p, 184, height: 0.95, color: p.text.withAlpha(26)),
                     ),
                   ),
                 ),

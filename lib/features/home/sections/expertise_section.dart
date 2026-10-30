@@ -13,6 +13,15 @@ class ExpertiseSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = Palette.of(context);
     return Section(
+      gradient: LinearGradient(
+        begin: Alignment.topRight,
+        end: Alignment.bottomLeft,
+        colors: [
+          p.bg,
+          Color.lerp(p.bg, p.atmosphereBlue, 0.08)!,
+          p.bg,
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +45,7 @@ class ExpertiseSection extends StatelessWidget {
                     final stacked = c.maxWidth < 900;
                     final title = Text(
                       n.title,
-                      style: Typo.display(p, stacked ? 36 : 44),
+                      style: Typo.display(p, stacked ? 30 : 38),
                     );
                     final body = Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

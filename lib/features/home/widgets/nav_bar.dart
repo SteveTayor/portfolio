@@ -41,9 +41,14 @@ class NavBar extends StatelessWidget {
       animation: scroll,
       builder: (context, _) {
         final off = scroll.hasClients ? scroll.offset : 0.0;
-        final visible =
-            (((off / travel) - 0.64) / 0.14).clamp(0.0, 1.0).toDouble();
-        final solid = off > travel + 40;
+        // A zero travel distance is used when reduced motion is requested;
+        // avoid dividing by zero and show the real navigation immediately.
+        final visible = travel <= 0
+            ? 1.0
+            : (((off / travel) - 0.64) / 0.14)
+                .clamp(0.0, 1.0)
+                .toDouble();
+        final solid = travel <= 0 || off > travel + 40;
         final p = Palette.of(context);
         return ExcludeFocus(
           excluding: visible < 0.1,

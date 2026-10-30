@@ -72,22 +72,19 @@ abstract final class Story {
 
   static const List<Role> roles = [
     Role(
-      'Flutter Mobile Architect',
+      'Flutter Developer · Product Engineering',
       'Bundlegram, fintech payment platform',
       'June 2025 to September 2026',
-      'Sole architect and developer of a live fintech payment platform: '
-          'system architecture, BLoC state management across feature modules, '
-          'REST and WebSocket integrations, dual role onboarding with KYC, '
-          'and continuous delivery to both stores.',
+      'Contributed to the ongoing development of a live fintech application, '
+          'including the airtime-to-cash journey and targeted improvements to '
+          'cold-start behaviour and the user experience.',
     ),
     Role(
       'Mobile Developer (Flutter), Contract',
       'TradeLenda, fintech, Lagos',
       'June 2025 to September 2025',
-      'Implemented the Firebase Authentication workflow, loan application and '
-          'investment workflows, and integrated a liveness detection API into '
-          'KYC onboarding. Profiled and reduced jank on low end Android '
-          'devices.',
+      'Implemented the Firebase Authentication workflow for an existing '
+          'fintech application.',
     ),
     Role(
       'Lead Flutter Developer',

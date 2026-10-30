@@ -51,8 +51,13 @@ class ProjectPage extends StatelessWidget {
                         Text(project.category,
                             style: Typo.label(p, color: p.accent, size: 14)),
                         const SizedBox(height: 14),
-                        Text(project.title,
-                            style: Typo.display(p, stacked ? 60 : 100, height: 0.98)),
+                        Semantics(
+                          header: true,
+                          child: Text(
+                            project.title,
+                            style: Typo.display(p, stacked ? 48 : 68, height: 1.02),
+                          ),
+                        ),
                         const SizedBox(height: 18),
                         Text(project.platforms, style: Typo.label(p, size: 14)),
                         const SizedBox(height: 26),
@@ -127,7 +132,8 @@ class ProjectPage extends StatelessWidget {
                       for (var i = 0; i < project.images.length; i++)
                         Pressable(
                           label: 'Open screen ${i + 1}',
-                          onTap: () => showProjectOverlay(context, project),
+                          onTap: () => showProjectOverlay(
+                            context, project, initialIndex: i),
                           builder: (context, on) => AnimatedOpacity(
                             duration: const Duration(milliseconds: 200),
                             opacity: on ? 1 : 0.92,
@@ -154,7 +160,7 @@ class ProjectPage extends StatelessWidget {
                         onTap: () => context.go('/work/${next.id}'),
                         builder: (context, on) => Text(
                           next.title,
-                          style: Typo.display(p, 64, color: on ? p.accent : p.text),
+                          style: Typo.display(p, 44, color: on ? p.accent : p.text),
                         ),
                       ),
                     ],
@@ -188,7 +194,10 @@ class _Block extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, c) {
             final stacked = c.maxWidth < 900;
-            final head = Text(title, style: Typo.display(p, stacked ? 34 : 40));
+            final head = Semantics(
+              header: true,
+              child: Text(title, style: Typo.display(p, stacked ? 28 : 34)),
+            );
             final text = Text(body, style: Typo.body(p, size: 18, height: 1.5));
             if (stacked) {
               return Column(
@@ -205,6 +214,59 @@ class _Block extends StatelessWidget {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+
+/// Explicit fallback for an unknown project URL. Never display another
+/// project's content for a link that cannot be resolved.
+class ProjectNotFoundPage extends StatelessWidget {
+  const ProjectNotFoundPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final p = Palette.of(context);
+    return Scaffold(
+      backgroundColor: p.bg,
+      body: Center(
+        child: Frame(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 640),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 48),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Project not found',
+                    style: Typo.label(p, color: p.accent, size: 14),
+                  ),
+                  const SizedBox(height: 18),
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      'This project link may be outdated.',
+                      style: Typo.display(p, 38, height: 1.08),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'The project could not be matched to a published case study.',
+                    style: Typo.body(p, size: 17),
+                  ),
+                  const SizedBox(height: 28),
+                  PrimaryButton(
+                    label: 'Back to portfolio',
+                    onTap: () => context.go('/'),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

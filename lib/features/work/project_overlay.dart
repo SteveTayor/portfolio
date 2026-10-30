@@ -10,7 +10,11 @@ import '../../core/widgets/pressable.dart';
 import 'project_visual.dart';
 
 /// Opens the screenshot gallery for a project above the page.
-Future<void> showProjectOverlay(BuildContext context, Project project) {
+Future<void> showProjectOverlay(
+  BuildContext context,
+  Project project, {
+  int initialIndex = 0,
+}) {
   final router = GoRouter.of(context);
   return showGeneralDialog<void>(
     context: context,
@@ -20,6 +24,7 @@ Future<void> showProjectOverlay(BuildContext context, Project project) {
     transitionDuration: const Duration(milliseconds: 340),
     pageBuilder: (dialogContext, a, b) => ProjectOverlay(
       project: project,
+      initialIndex: initialIndex.clamp(0, project.images.length - 1).toInt(),
       onCase: () {
         Navigator.of(dialogContext).pop();
         router.go('/work/${project.id}');
@@ -36,9 +41,15 @@ Future<void> showProjectOverlay(BuildContext context, Project project) {
 }
 
 class ProjectOverlay extends StatefulWidget {
-  const ProjectOverlay({super.key, required this.project, required this.onCase});
+  const ProjectOverlay({
+    super.key,
+    required this.project,
+    required this.initialIndex,
+    required this.onCase,
+  });
 
   final Project project;
+  final int initialIndex;
   final VoidCallback onCase;
 
   @override
@@ -46,7 +57,7 @@ class ProjectOverlay extends StatefulWidget {
 }
 
 class _ProjectOverlayState extends State<ProjectOverlay> {
-  int _i = 0;
+  late int _i = widget.initialIndex;
 
   void _go(int n) {
     final count = widget.project.images.length;
@@ -103,7 +114,7 @@ class _ProjectOverlayState extends State<ProjectOverlay> {
                     children: [
                       Text(pr.category, style: Typo.label(p, color: p.accent, size: 14)),
                       const SizedBox(height: 12),
-                      Text(pr.title, style: Typo.display(p, stacked ? 44 : 64, height: 1.0)),
+                      Text(pr.title, style: Typo.display(p, stacked ? 40 : 56, height: 1.0)),
                       const SizedBox(height: 16),
                       Text(pr.summary, style: Typo.body(p, size: 16, height: 1.5)),
                       const SizedBox(height: 16),

@@ -36,7 +36,14 @@ class _FlyingBirdState extends State<FlyingBird>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _reduced = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final reduced = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    if (reduced == _reduced) return;
+    _reduced = reduced;
+    if (reduced) {
+      _idle?.cancel();
+      _flap.stop();
+      _flap.value = 1;
+    }
   }
 
   void _onScroll() {
@@ -81,6 +88,8 @@ class _FlyingBirdState extends State<FlyingBird>
               phase: _flap.value * math.pi * 2,
               accent: p.accent,
               ink: p.text2,
+              washTeal: p.atmosphereTeal,
+              washBlue: p.atmosphereBlue,
               dark: p.isDark,
             ),
           ),
@@ -96,6 +105,8 @@ class _BirdPainter extends CustomPainter {
     required this.phase,
     required this.accent,
     required this.ink,
+    required this.washTeal,
+    required this.washBlue,
     required this.dark,
   });
 
@@ -103,6 +114,8 @@ class _BirdPainter extends CustomPainter {
   final double phase;
   final Color accent;
   final Color ink;
+  final Color washTeal;
+  final Color washBlue;
   final bool dark;
 
   // Waypoints in screen fractions. The bird enters from the right, banks
@@ -150,8 +163,10 @@ class _BirdPainter extends CustomPainter {
     final pos = px(t);
     final ahead = px((t + 0.004).clamp(0.0, 1.0)) - px((t - 0.004).clamp(0.0, 1.0));
     final heading = math.atan2(ahead.dy, ahead.dx);
+    // A slightly smaller silhouette lets the bird read as a signature detail
+    // instead of competing with project content at common desktop widths.
     final unit =
-        (math.min(size.width, size.height) * 0.17).clamp(64.0, 150.0).toDouble();
+        (math.min(size.width, size.height) * 0.12).clamp(44.0, 98.0).toDouble();
     final depth = 0.88 + 0.22 * math.sin(t * math.pi * 6);
     final fade = (t * 18).clamp(0.0, 1.0).toDouble();
 
@@ -188,10 +203,10 @@ class _BirdPainter extends CustomPainter {
     canvas.rotate(heading);
     canvas.scale(s, s);
 
-    final body = Color.lerp(accent, const Color(0xFF0B0D0B), dark ? 0.38 : 0.12)!;
-    final tail = Color.lerp(accent, const Color(0xFF0B0D0B), dark ? 0.55 : 0.34)!;
+    final body = Color.lerp(accent, washTeal, dark ? 0.30 : 0.24)!;
+    final tail = Color.lerp(accent, const Color(0xFF0B0D0B), dark ? 0.48 : 0.28)!;
     final wingA = accent;
-    final wingB = Color.lerp(accent, const Color(0xFFFFFFFF), dark ? 0.22 : 0.18)!;
+    final wingB = Color.lerp(accent, washBlue, dark ? 0.34 : 0.42)!;
 
     Paint fill(Color c) {
       final paint = Paint()..color = c.withAlpha(alpha);
@@ -249,5 +264,11 @@ class _BirdPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _BirdPainter old) =>
-      old.t != t || old.phase != phase || old.accent != accent;
+      old.t != t ||
+      old.phase != phase ||
+      old.accent != accent ||
+      old.ink != ink ||
+      old.washTeal != washTeal ||
+      old.washBlue != washBlue ||
+      old.dark != dark;
 }

@@ -15,8 +15,20 @@ class WorkSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final p = Palette.of(context);
     final list = Projects.shown;
     return Section(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          p.surface,
+          Color.lerp(p.surface, p.atmosphereTeal, 0.12)!,
+          Color.lerp(p.surface, p.atmosphereBlue, 0.10)!,
+          p.surface,
+        ],
+        stops: const [0.0, 0.34, 0.72, 1.0],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -117,7 +129,7 @@ class ProjectCard extends StatelessWidget {
                       style: Typo.label(p, size: 13),
                     ),
                     const SizedBox(height: 8),
-                    Text(project.title, style: Typo.display(p, 44, height: 1.0)),
+                    Text(project.title, style: Typo.display(p, 38, height: 1.05)),
                   ],
                 ),
               ),

@@ -281,13 +281,16 @@ class _ContactBodyState extends State<_ContactBody>
                     style: Typo.label(p, size: 14, color: _on ? p.accent : p.muted),
                   ),
                   const SizedBox(height: 22),
-                  ExcludeFocus(
+                  ExcludeSemantics(
                     excluding: !_on,
-                    child: IgnorePointer(
-                      ignoring: !_on,
-                      child: Opacity(
-                        opacity: 0.2 + 0.8 * lit,
-                        child: _sent ? thanks : fields,
+                    child: ExcludeFocus(
+                      excluding: !_on,
+                      child: IgnorePointer(
+                        ignoring: !_on,
+                        child: Opacity(
+                          opacity: 0.2 + 0.8 * lit,
+                          child: _sent ? thanks : fields,
+                        ),
                       ),
                     ),
                   ),
@@ -338,7 +341,7 @@ class _ContactBodyState extends State<_ContactBody>
             ),
             const SizedBox(height: 8),
             Pressable(
-              label: 'Contact lamp',
+              label: _on ? 'Switch off the contact lamp' : 'Switch on the contact lamp',
               toggled: _on,
               onTap: _toggle,
               builder: (context, hot) => Row(
@@ -393,7 +396,7 @@ class _ContactBodyState extends State<_ContactBody>
                   const SizedBox(height: 18),
                   Text(
                     'Have a project in mind?',
-                    style: Typo.display(p, mobile ? 52 : 84, height: 0.98),
+                    style: Typo.display(p, mobile ? 40 : 58, height: 1.03),
                   ),
                   const SizedBox(height: 26),
                   Pressable(
@@ -403,10 +406,9 @@ class _ContactBodyState extends State<_ContactBody>
                       duration: const Duration(milliseconds: 200),
                       style: Typo.display(
                         p,
-                        mobile ? 24 : 38,
+                        mobile ? 20 : 28,
                         height: 1.1,
                         color: on ? p.accent : p.text,
-                        style: FontStyle.italic,
                       ).copyWith(
                         decoration: on ? TextDecoration.underline : TextDecoration.none,
                         decorationColor: p.accent,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/content/story.dart';
+import '../../../core/resume/resume_download.dart';
 import '../../../core/theme/palette.dart';
 import '../../../core/theme/typography.dart';
+import '../../../core/widgets/pressable.dart';
 import '../../../core/widgets/reveal.dart';
 import '../../../core/widgets/section.dart';
 
@@ -16,7 +18,15 @@ class ExperienceSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = Palette.of(context);
     return Section(
-      color: p.surface,
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          p.surface,
+          Color.lerp(p.surface, p.atmosphereTeal, 0.09)!,
+          p.surface,
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -66,8 +76,76 @@ class ExperienceSection extends StatelessWidget {
                 ),
               ),
             ),
+          const SizedBox(height: 24),
+          _ResumeCallout(onDownload: downloadResume),
+          const SizedBox(height: 36),
           const Hairline(),
         ],
+      ),
+    );
+  }
+}
+
+
+class _ResumeCallout extends StatelessWidget {
+  const _ResumeCallout({required this.onDownload});
+
+  final VoidCallback onDownload;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = Palette.of(context);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(28),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: p.border),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            p.raised,
+            Color.lerp(p.raised, p.atmosphereTeal, 0.16)!,
+            Color.lerp(p.raised, p.atmosphereBlue, 0.12)!,
+          ],
+        ),
+      ),
+      child: LayoutBuilder(
+        builder: (context, c) {
+          final stacked = c.maxWidth < 700;
+          final message = Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'A concise view of my experience.',
+                style: Typo.display(p, stacked ? 24 : 29, height: 1.12),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Résumé · PDF · Flutter, product work and experience',
+                style: Typo.body(p, size: 14, height: 1.4),
+              ),
+            ],
+          );
+          if (stacked) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                message,
+                const SizedBox(height: 20),
+                PrimaryButton(label: 'Download résumé', onTap: onDownload),
+              ],
+            );
+          }
+          return Row(
+            children: [
+              Expanded(child: message),
+              const SizedBox(width: 24),
+              PrimaryButton(label: 'Download résumé', onTap: onDownload),
+            ],
+          );
+        },
       ),
     );
   }

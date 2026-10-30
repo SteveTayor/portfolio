@@ -17,6 +17,9 @@ GoRouter buildRouter() {
         path: '/work/:id',
         pageBuilder: (context, state) {
           final project = Projects.byId(state.pathParameters['id']);
+          if (project == null) {
+            return _fade(state, const ProjectNotFoundPage());
+          }
           return _fade(state, ProjectPage(project: project));
         },
       ),

@@ -14,7 +14,16 @@ class AboutSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = Palette.of(context);
     return Section(
-      color: p.surface,
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          p.surface,
+          Color.lerp(p.surface, p.atmosphereRose, 0.07)!,
+          Color.lerp(p.surface, p.atmosphereTeal, 0.06)!,
+        ],
+        stops: const [0.0, 0.52, 1.0],
+      ),
       child: LayoutBuilder(
         builder: (context, c) {
           final stacked = c.maxWidth < 900;
@@ -26,7 +35,7 @@ class AboutSection extends StatelessWidget {
                 const SizedBox(height: 18),
                 Text(
                   'Beyond writing code.',
-                  style: Typo.display(p, stacked ? 52 : 84, height: 1.0),
+                  style: Typo.display(p, stacked ? 40 : 58, height: 1.06),
                 ),
               ],
             ),
@@ -60,7 +69,7 @@ class AboutSection extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(Story.principles[i].title,
-                                  style: Typo.display(p, 30)),
+                                  style: Typo.display(p, 27)),
                               const SizedBox(height: 8),
                               Text(Story.principles[i].body,
                                   style: Typo.body(p, size: 16)),

@@ -6,10 +6,11 @@ import '../theme/typography.dart';
 import 'reveal.dart';
 
 class Section extends StatelessWidget {
-  const Section({super.key, required this.child, this.color});
+  const Section({super.key, required this.child, this.color, this.gradient});
 
   final Widget child;
   final Color? color;
+  final Gradient? gradient;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,10 @@ class Section extends StatelessWidget {
         final vertical = constraints.maxWidth < Bp.mobile ? 80.0 : 128.0;
         return Container(
           width: double.infinity,
-          color: color,
+          decoration: BoxDecoration(
+            color: gradient == null ? color : null,
+            gradient: gradient,
+          ),
           padding: EdgeInsets.symmetric(vertical: vertical),
           child: Frame(child: child),
         );
@@ -53,9 +57,12 @@ class SectionHead extends StatelessWidget {
               const SizedBox(height: 18),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 900),
-                child: Text(
-                  title,
-                  style: Typo.display(p, mobile ? 44 : 72, height: 1.02),
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    title,
+                    style: Typo.display(p, mobile ? 38 : 58, height: 1.05),
+                  ),
                 ),
               ),
               if (body != null) ...[

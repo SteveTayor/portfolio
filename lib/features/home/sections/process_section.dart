@@ -38,10 +38,10 @@ class ProcessSection extends StatelessWidget {
                       children: [
                         Text(
                           (i + 1).toString().padLeft(2, '0'),
-                          style: Typo.display(p, 56, color: p.accent),
+                          style: Typo.display(p, 40, color: p.accent),
                         ),
                         const SizedBox(height: 14),
-                        Text(n.title, style: Typo.display(p, 30)),
+                        Text(n.title, style: Typo.display(p, 25)),
                         const SizedBox(height: 10),
                         Text(n.body, style: Typo.body(p, size: 15)),
                       ],

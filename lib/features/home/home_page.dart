@@ -52,10 +52,14 @@ class _HomePageState extends State<HomePage> {
 
   void _goTo(int navIndex) {
     if (_menu) setState(() => _menu = false);
+    final reduceMotion = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    final duration = reduceMotion
+        ? Duration.zero
+        : const Duration(milliseconds: 800);
     if (navIndex < 0) {
       _scroll.animateTo(
         0,
-        duration: const Duration(milliseconds: 900),
+        duration: duration,
         curve: Curves.easeInOutCubic,
       );
       return;
@@ -65,7 +69,7 @@ class _HomePageState extends State<HomePage> {
     if (ctx == null) return;
     Scrollable.ensureVisible(
       ctx,
-      duration: const Duration(milliseconds: 800),
+      duration: duration,
       curve: Curves.easeInOutCubic,
     );
   }
@@ -73,8 +77,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final p = Palette.of(context);
-    final vh = MediaQuery.sizeOf(context).height;
-    final travel = vh * 2.2;
+    final viewport = MediaQuery.sizeOf(context);
+    final vh = viewport.height;
+    final reduceMotion = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    // Keep the cinematic introduction, but don't make people scroll through
+    // more than a screen of pinned animation to reach the actual portfolio.
+    // Reduced-motion users see the final hero immediately with no scroll tax.
+    final travel = reduceMotion
+        ? 0.0
+        : vh * (viewport.width < 720 ? 1.05 : 1.55);
 
     return Scaffold(
       backgroundColor: p.bg,

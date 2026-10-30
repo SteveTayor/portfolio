@@ -62,6 +62,7 @@ class _IntroStageState extends State<IntroStage>
   @override
   Widget build(BuildContext context) {
     final p = Palette.of(context);
+    final reduceMotion = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     final size = MediaQuery.sizeOf(context);
     final vw = size.width;
     final vh = size.height;
@@ -88,12 +89,19 @@ class _IntroStageState extends State<IntroStage>
           final off = widget.scroll.hasClients ? widget.scroll.offset : 0.0;
           final pin = off.clamp(0.0, widget.travel).toDouble();
           final prog = widget.travel <= 0 ? 0.0 : pin / widget.travel;
-          final e = Curves.easeInOutCubic.transform(_seg(prog, 0.0, 0.6));
-          final fade = _seg(prog, 0.52, 0.74);
-          final heroIn = _seg(prog, 0.62, 0.86);
+          // With reduced motion enabled, start on the final composition rather
+          // than moving the camera or cross-fading through the laptop.
+          final e = reduceMotion
+              ? 1.0
+              : Curves.easeInOutCubic.transform(_seg(prog, 0.0, 0.55));
+          final fade = reduceMotion ? 1.0 : _seg(prog, 0.38, 0.54);
+          final heroIn = reduceMotion ? 1.0 : _seg(prog, 0.46, 0.64);
           final open = Curves.easeInOutCubic.transform(_open.value);
-          final cue = (_seg(_open.value, 0.7, 1.0) * (1 - _seg(prog, 0.0, 0.08)))
-              .toDouble();
+          final cue = reduceMotion
+              ? 0.0
+              : (_seg(_open.value, 0.7, 1.0) *
+                      (1 - _seg(prog, 0.0, 0.08)))
+                  .toDouble();
 
           final scale = 1 + (zoom - 1) * e;
           final centre = Offset.lerp(screenCentre, Offset(vw / 2, vh / 2), e)!;
@@ -118,6 +126,65 @@ class _IntroStageState extends State<IntroStage>
                               center: const Alignment(0, -0.1),
                               radius: 0.95,
                               colors: [p.surface, p.bg],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // A quiet three-tone atmosphere gives the opening depth
+                      // in both themes without adding new UI accents.
+                      Positioned(
+                        left: -vw * 0.16,
+                        top: -vh * 0.16,
+                        width: vw * 0.76,
+                        height: vh * 0.88,
+                        child: IgnorePointer(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                radius: 1.05,
+                                colors: [
+                                  p.atmosphereTeal.withAlpha(95),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: -vw * 0.20,
+                        top: -vh * 0.18,
+                        width: vw * 0.78,
+                        height: vh * 0.88,
+                        child: IgnorePointer(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                radius: 1.0,
+                                colors: [
+                                  p.atmosphereBlue.withAlpha(83),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: vw * 0.08,
+                        bottom: -vh * 0.24,
+                        width: vw * 0.72,
+                        height: vh * 0.64,
+                        child: IgnorePointer(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                radius: 1.0,
+                                colors: [
+                                  p.atmosphereRose.withAlpha(48),
+                                  Colors.transparent,
+                                ],
+                              ),
                             ),
                           ),
                         ),

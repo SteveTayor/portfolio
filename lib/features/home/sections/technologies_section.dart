@@ -33,8 +33,8 @@ class TechnologiesSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 64),
-              _Band(words: Story.bandOne, size: mobile ? 56 : 104, reverse: false),
-              _Band(words: Story.bandTwo, size: mobile ? 56 : 104, reverse: true, quiet: true),
+              _Band(words: Story.bandOne, size: mobile ? 34 : 68, reverse: false),
+              _Band(words: Story.bandTwo, size: mobile ? 34 : 68, reverse: true, quiet: true),
               const SizedBox(height: 72),
               Frame(
                 child: Column(
@@ -50,7 +50,7 @@ class TechnologiesSection extends StatelessWidget {
                             builder: (context, cc) {
                               final stacked = cc.maxWidth < 900;
                               final title = Text(n.title,
-                                  style: Typo.display(p, stacked ? 36 : 44));
+                                  style: Typo.display(p, stacked ? 32 : 38));
                               final body = Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -192,7 +192,7 @@ class _BandState extends State<_Band> with SingleTickerProviderStateMixin {
                       widget.size,
                       height: 1.2,
                       color: widget.quiet ? p.muted : p.text,
-                      style: widget.quiet ? FontStyle.italic : FontStyle.normal,
+                      weight: widget.quiet ? FontWeight.w500 : FontWeight.w600,
                     ),
                   ),
                   const SizedBox(width: 60),

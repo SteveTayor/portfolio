@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../../core/content/profile.dart';
@@ -8,9 +10,9 @@ import '../../../core/widgets/pressable.dart';
 
 const String kPortraitAsset = 'assets/portrait.webp';
 
-/// The first frame. A name set large, one short line, and a portrait in an
-/// arch. The same widget is shown on the laptop screen (at 1280 by 800) and as
-/// the real hero, so the zoom lands on an identical frame.
+/// The same carefully composed frame is used on the laptop screen and in the
+/// real intro. The portrait fills the desktop's right side; copy sits over a
+/// soft fade at the image edge, rather than repeating the name from the nav.
 class HeroComposition extends StatelessWidget {
   const HeroComposition({
     super.key,
@@ -31,9 +33,9 @@ class HeroComposition extends StatelessWidget {
         final w = c.maxWidth;
         final mobile = w < Bp.mobile;
         final padX = Bp.pad(w);
-        final nameSize = mobile
-            ? (w < 380 ? 64.0 : 76.0)
-            : (w >= 1240 ? 150.0 : (w >= 1080 ? 124.0 : 96.0));
+        final headlineSize = mobile
+            ? (w < 380 ? 38.0 : 46.0)
+            : (w >= 1240 ? 72.0 : (w >= 1080 ? 64.0 : 54.0));
 
         Widget copy() {
           return Column(
@@ -43,39 +45,64 @@ class HeroComposition extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(width: 36, height: 1, color: p.accent),
-                  const SizedBox(width: 14),
-                  Text(
-                    Profile.title,
-                    style: Typo.label(p, color: p.accent, size: 14),
+                  // Container(width: 30, height: 1, color: p.accent),
+                  const SizedBox(width: 12),
+                  Flexible(
+                    child: Text(
+                      mobile && w < 380
+                          // ? '${Profile.experience} · Flutter'
+                          ? 'Flutter Developer'
+                          : 'SENIOR Flutter Developer',
+
+                      // : '${Profile.experience} ·SENIOR Flutter Developer',
+                      style: Typo.label(
+                        p,
+                        color: p.accent,
+                        size: mobile && w < 380 ? 11 : 13,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: mobile ? 18 : 28),
-              Text('Ayomide', style: Typo.display(p, nameSize, height: 0.92)),
-              Text(
-                'Arowolo',
-                style: Typo.display(
-                  p,
-                  nameSize,
-                  height: 0.92,
-                  color: p.accent,
-                  style: FontStyle.italic,
+              SizedBox(height: mobile ? 18 : 24),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: mobile ? w : 680),
+                child: Semantics(
+                  header: true,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(text: 'The little things are the '),
+                        TextSpan(
+                          text: 'whole experience.',
+                          // One deliberate italic accent. Italics stay available
+                          // as an editorial detail, not a repeated visual rule.
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ],
+                    ),
+                    style: Typo.display(p, headlineSize, height: 1.05),
+                  ),
                 ),
               ),
-              SizedBox(height: mobile ? 18 : 30),
-              Text(
-                Profile.line,
-                style: Typo.body(p, size: mobile ? 17 : 20, height: 1.4),
+              SizedBox(height: mobile ? 16 : 22),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: mobile ? w : 560),
+                child: Text(
+                  Profile.line,
+                  style: Typo.body(p, size: mobile ? 15 : 18, height: 1.55),
+                ),
               ),
-              SizedBox(height: mobile ? 22 : 34),
+              SizedBox(height: mobile ? 22 : 30),
               Wrap(
-                spacing: 28,
+                spacing: 24,
                 runSpacing: 4,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   PrimaryButton(
-                    label: 'See the work',
+                    label: 'Explore selected work',
                     onTap: interactive ? onWork : null,
                   ),
                   TextLink(
@@ -90,15 +117,11 @@ class HeroComposition extends StatelessWidget {
 
         if (mobile) {
           return Padding(
-            padding: EdgeInsets.fromLTRB(padX, 96, padX, 0),
+            padding: EdgeInsets.fromLTRB(padX, 88, padX, 16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.topLeft,
-                  child: SizedBox(width: w - padX * 2, child: copy()),
-                ),
+                copy(),
                 const SizedBox(height: 22),
                 const Expanded(child: PortraitArch(fillWidth: true)),
               ],
@@ -106,36 +129,65 @@ class HeroComposition extends StatelessWidget {
           );
         }
 
-        return Padding(
-          padding: EdgeInsets.fromLTRB(padX, 104, padX, 40),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 13,
-                child: LayoutBuilder(
-                  builder: (context, cc) => FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: SizedBox(width: cc.maxWidth, child: copy()),
+        return Stack(
+          fit: StackFit.expand,
+          clipBehavior: Clip.hardEdge,
+          children: [
+            ColoredBox(color: p.bg),
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: w * 0.52,
+              child: const PortraitArch(fillWidth: true, edgeToEdge: true),
+            ),
+            // The fade blends the image into the page without a visible card
+            // boundary. The right edge of the portrait remains fully visible.
+            Positioned.fill(
+              child: IgnorePointer(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      stops: const [0.0, 0.37, 0.57, 0.82, 1.0],
+                      colors: [
+                        p.bg,
+                        p.bg,
+                        p.bg.withAlpha(226),
+                        p.bg.withAlpha(105),
+                        Colors.transparent,
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(width: 40),
-              const Expanded(flex: 9, child: PortraitArch()),
-            ],
-          ),
+            ),
+            Positioned(
+              left: padX,
+              top: 88,
+              bottom: 30,
+              width: w * 0.55,
+              child: Align(alignment: Alignment.centerLeft, child: copy()),
+            ),
+          ],
         );
       },
     );
   }
 }
 
-/// The portrait inside an arch, with a thin outline offset behind it.
+/// The portrait is a full-height, image-led composition on desktop and a
+/// generously sized portrait on mobile. Both themes use the same neutral mask.
 class PortraitArch extends StatelessWidget {
-  const PortraitArch({super.key, this.fillWidth = false});
+  const PortraitArch({
+    super.key,
+    this.fillWidth = false,
+    this.edgeToEdge = false,
+  });
 
   final bool fillWidth;
+  final bool edgeToEdge;
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +201,17 @@ class PortraitArch extends StatelessWidget {
           if (!fillWidth) h = w / 0.8;
         }
         final r = w / 2;
+        final fullBleedRadius = math.min(w * 0.52, h * 0.32);
+        final shape = edgeToEdge
+            ? BorderRadius.only(
+                topLeft: Radius.circular(fullBleedRadius),
+                bottomLeft: const Radius.circular(32),
+              )
+            : BorderRadius.vertical(
+                top: Radius.circular(r),
+                bottom: const Radius.circular(28),
+              );
+
         return Align(
           alignment: fillWidth ? Alignment.bottomCenter : Alignment.center,
           child: SizedBox(
@@ -157,40 +220,57 @@ class PortraitArch extends StatelessWidget {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                Positioned(
-                  left: 16,
-                  right: -16,
-                  top: -14,
-                  bottom: 14,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: p.border),
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(r),
-                        bottom: const Radius.circular(28),
+                if (!edgeToEdge)
+                  Positioned(
+                    left: 16,
+                    right: -16,
+                    top: -14,
+                    bottom: 14,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: p.border),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(r),
+                          bottom: const Radius.circular(28),
+                        ),
                       ),
                     ),
                   ),
-                ),
                 Positioned.fill(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(r),
-                      bottom: const Radius.circular(28),
-                    ),
-                    child: Image.asset(
-                      kPortraitAsset,
-                      fit: BoxFit.cover,
-                      alignment: const Alignment(0.1, -0.5),
-                      gaplessPlayback: true,
-                      frameBuilder: (context, child, frame, sync) =>
-                          AnimatedOpacity(
-                        opacity: (sync || frame != null) ? 1 : 0,
-                        duration: const Duration(milliseconds: 600),
-                        child: child,
-                      ),
-                      errorBuilder: (context, e, s) =>
-                          ColoredBox(color: p.surface),
+                    borderRadius: shape,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.asset(
+                          kPortraitAsset,
+                          fit: BoxFit.cover,
+                          alignment: const Alignment(0.1, -0.5),
+                          gaplessPlayback: true,
+                          frameBuilder: (context, child, frame, sync) =>
+                              AnimatedOpacity(
+                                opacity: (sync || frame != null) ? 1 : 0,
+                                duration: const Duration(milliseconds: 600),
+                                child: child,
+                              ),
+                          errorBuilder: (context, e, s) =>
+                              ColoredBox(color: p.surface),
+                        ),
+                        if (edgeToEdge)
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  p.atmosphereTeal.withAlpha(28),
+                                  Colors.transparent,
+                                  p.atmosphereBlue.withAlpha(24),
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),
@@ -203,7 +283,8 @@ class PortraitArch extends StatelessWidget {
   }
 }
 
-/// What the laptop screen shows: the hero plus a static copy of the top bar.
+/// The laptop screen includes its own navigation as a realistic preview of the
+/// site. The main headline no longer repeats the visitor-facing nav name.
 class ScreenFace extends StatelessWidget {
   const ScreenFace({super.key});
 
@@ -224,7 +305,7 @@ class ScreenFace extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(Profile.name, style: Typo.display(p, 26)),
+                  Text(Profile.name, style: Typo.display(p, 22)),
                   Row(
                     children: [
                       for (final l in const [

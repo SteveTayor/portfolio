@@ -28,7 +28,8 @@ class Project {
   /// Real screenshots, first one is the cover.
   final List<String> images;
 
-  /// Only ever a verified outcome. Null when nothing is confirmed.
+  /// Publish only outcomes the portfolio owner can substantiate. Null when
+  /// there is no defensible result to state.
   final String? outcome;
 }
 
@@ -41,8 +42,15 @@ abstract final class Projects {
   static final List<Project> shown =
       all.where((p) => p.images.isNotEmpty).toList();
 
-  static Project byId(String? id) =>
-      shown.firstWhere((p) => p.id == id, orElse: () => shown.first);
+  /// Returns null for unknown IDs so a bad deep link never masquerades as
+  /// the first project in the portfolio.
+  static Project? byId(String? id) {
+    if (id == null) return null;
+    for (final project in shown) {
+      if (project.id == id) return project;
+    }
+    return null;
+  }
 
   static Project next(Project current) {
     final i = shown.indexWhere((p) => p.id == current.id);
@@ -56,42 +64,33 @@ abstract final class Projects {
       category: 'Fintech and Payments',
       platforms: 'iOS and Android, live in production',
       summary:
-          'Sole architect and developer of a live fintech payment platform '
-          'covering payments, wallets, transactions, airtime and data '
-          'services.',
-      role: 'Flutter Mobile Architect',
+          'Contributed to the ongoing development of a live fintech app, '
+          'including transactional features and improvements to everyday '
+          'payment journeys.',
+      role: 'Flutter Developer · Product Engineering',
       problem:
-          'A fintech payment product needed a complete cross platform '
-          'application: wallet management, transactions, airtime and data '
-          'services, and a dual role system for users and agents, shipped and '
-          'maintainable in production.',
+          'An existing fintech product needed new customer-facing features '
+          'and a dependable experience across its core payment journeys.',
       contribution:
-          'Designed the system architecture and built the full application '
-          'with BLoC state management across feature modules. Integrated '
-          'third party REST APIs with JWT token management and refresh flows, '
-          'plus real time transaction sync over WebSocket for live wallet '
-          'updates. Built interactive financial dashboards and animated '
-          'transaction feeds with CustomPainter and AnimationController, and '
-          'architected dual role onboarding with BVN and email verification, '
-          'KYC and encrypted wallet management.',
+          'Contributed to feature delivery in the existing Flutter codebase, '
+          'including the airtime-to-cash journey. Also worked on cold-start '
+          'and related user-experience issues rather than presenting the '
+          'product as a greenfield application built by one person.',
       approach:
-          'Feature first architecture with modular feature modules, BLoC for '
-          'predictable state, DevTools profiling to remove unnecessary widget '
-          'rebuilds and improve cold start time, and continuous delivery '
-          'pipelines for automated builds, testing and release to both '
-          'platforms.',
+          'Worked within the product that was already in production, focusing '
+          'on feature integration, dependable transaction flows and targeted '
+          'experience improvements while preserving existing behaviour.',
       technologies: [
         'Flutter',
         'Dart',
-        'BLoC',
-        'REST APIs',
-        'WebSocket',
-        'JWT',
-        'Firebase',
-        'Secure Storage',
+        'Product feature delivery',
+        'App performance',
       ],
       images: _shots('bundlegram', 6),
-      outcome: 'Live on the App Store and Google Play.',
+      outcome:
+          'Reported usage increased by more than 70% following the airtime-'
+          'to-cash release; cold-start and related experience issues were also '
+          'addressed.',
     ),
     Project(
       id: 'medherence',
@@ -131,39 +130,30 @@ abstract final class Projects {
         'Alarm Manager',
       ],
       images: _shots('medherence', 6),
-      outcome: 'Deployed to the App Store and Google Play.',
     ),
     Project(
       id: 'tradelenda',
       title: 'TradeLenda',
-      category: 'Fintech, Authentication and KYC',
+      category: 'Fintech and Authentication',
       platforms: 'iOS and Android, live application',
       summary:
-          'Implemented the Firebase Authentication workflow and loan '
-          'application flows in a live fintech app, including liveness '
-          'detection for KYC.',
+          'Implemented the Firebase Authentication workflow for an existing '
+          'fintech application.',
       role: 'Mobile Developer (Flutter), Contract',
       problem:
-          'A live fintech application needed its user authentication '
-          'experience built, loan application and investment workflows '
-          'implemented, and identity verification strengthened against '
-          'fraud.',
+          'The application needed a clear, dependable authentication workflow '
+          'for people accessing the product.',
       contribution:
-          'Implemented the Firebase Authentication workflow, contributing to '
-          'the sign in and authentication experience. Built the interface '
-          'workflows for loan applications and investment dashboards, and '
-          'integrated a liveness detection API into KYC onboarding as a '
-          'background service component to support fraud prevention and '
-          'identity verification.',
+          'Implemented the Firebase Authentication workflow. This case study '
+          'focuses on the confirmed authentication contribution; related loan, '
+          'investment or identity-verification work should be added only when '
+          'the scope can be confirmed.',
       approach:
-          'Firebase Authentication for the identity layer, background service '
-          'integration for the liveness API, and DevTools profiling to reduce '
-          'jank on low end Android devices.',
+          'Used Firebase Authentication to support the sign-in workflow and '
+          'integrated the experience into the existing Flutter application.',
       technologies: [
         'Flutter',
         'Firebase Authentication',
-        'REST APIs',
-        'KYC and Liveness API',
       ],
       images: _shots('tradelenda', 4),
     ),

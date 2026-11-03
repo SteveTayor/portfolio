@@ -27,7 +27,7 @@ class StageBlock extends StatelessWidget {
                   p.bg,
                   Color.lerp(p.bg, p.wine, 0.18)!,
                   Color.lerp(p.bg, p.emerald, 0.20)!,
-                  Color.lerp(p.bg, p.mauve, 0.12)!,
+                  Color.lerp(p.bg, p.beige, 0.12)!,
                   p.bg,
                 ],
                 stops: const [0.0, 0.24, 0.50, 0.78, 1.0],

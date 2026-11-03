@@ -281,7 +281,7 @@ class _ContactBodyState extends State<_ContactBody>
                 color: p.raised.withAlpha(120 + (lit * 120).round()),
                 borderRadius: BorderRadius.circular(28),
                 border: Border.all(
-                  color: Color.lerp(p.border, p.accent, lit * 0.5)!,
+                  color: Color.lerp(p.border, p.beige, lit * 0.5)!,
                 ),
               ),
               child: Column(
@@ -294,7 +294,7 @@ class _ContactBodyState extends State<_ContactBody>
                     style: Typo.label(
                       p,
                       size: 14,
-                      color: _on ? p.accent : p.muted,
+                      color: _on ? p.beige : p.muted,
                     ),
                   ),
                   const SizedBox(height: 22),

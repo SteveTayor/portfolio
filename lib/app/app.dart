@@ -16,8 +16,6 @@ class PortfolioApp extends StatefulWidget {
 }
 
 class _PortfolioAppState extends State<PortfolioApp> {
-  // Created exactly once. Rebuilding the router on every theme change is what
-  // caused the framework assertion in the previous version.
   late final GoRouter _router = buildRouter();
 
   static final ThemeData _light = AppTheme.build(Palette.light);

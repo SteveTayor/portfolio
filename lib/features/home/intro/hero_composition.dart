@@ -34,8 +34,8 @@ class HeroComposition extends StatelessWidget {
         final mobile = w < Bp.mobile;
         final padX = Bp.pad(w);
         final headlineSize = mobile
-            ? (w < 380 ? 38.0 : 46.0)
-            : (w >= 1240 ? 72.0 : (w >= 1080 ? 64.0 : 54.0));
+            ? (w < 380 ? 40.0 : 44.0)
+            : (w >= 1240 ? 60.0 : (w >= 1080 ? 56.0 : 52.0));
 
         Widget copy() {
           return Column(
@@ -45,20 +45,15 @@ class HeroComposition extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Container(width: 30, height: 1, color: p.accent),
-                  const SizedBox(width: 12),
+                  // Container(width: 22, height: 1, color: p.accent),
+                  const SizedBox(width: 10),
                   Flexible(
                     child: Text(
-                      mobile && w < 380
-                          // ? '${Profile.experience} · Flutter'
-                          ? 'Flutter Developer'
-                          : 'SENIOR Flutter Developer',
-
-                      // : '${Profile.experience} ·SENIOR Flutter Developer',
+                      'FINTECH  ·  DIGITAL HEALTH  ·  REAL-TIME PRODUCTS',
                       style: Typo.label(
                         p,
                         color: p.accent,
-                        size: mobile && w < 380 ? 11 : 13,
+                        size: mobile ? 10.5 : 12,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -66,36 +61,37 @@ class HeroComposition extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: mobile ? 18 : 24),
+              SizedBox(height: mobile ? 14 : 18),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: mobile ? w : 680),
+                constraints: BoxConstraints(maxWidth: mobile ? w : 620),
                 child: Semantics(
                   header: true,
+                  label: Profile.heroTitle,
                   child: Text.rich(
                     TextSpan(
                       children: [
-                        const TextSpan(text: 'The little things are the '),
+                        TextSpan(text: Profile.heroTitlePrefix),
                         TextSpan(
-                          text: 'whole experience.',
-                          // One deliberate italic accent. Italics stay available
-                          // as an editorial detail, not a repeated visual rule.
+                          text: Profile.heroTitleEmphasis,
+                          // A single editorial italic detail; the rest of the
+                          // portfolio typography remains upright and restrained.
                           style: const TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ],
                     ),
-                    style: Typo.display(p, headlineSize, height: 1.05),
+                    style: Typo.display(p, headlineSize, height: 1.04),
                   ),
                 ),
               ),
-              SizedBox(height: mobile ? 16 : 22),
+              SizedBox(height: mobile ? 14 : 18),
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: mobile ? w : 560),
+                constraints: BoxConstraints(maxWidth: mobile ? w : 500),
                 child: Text(
                   Profile.line,
-                  style: Typo.body(p, size: mobile ? 15 : 18, height: 1.55),
+                  style: Typo.body(p, size: mobile ? 14.5 : 16, height: 1.52),
                 ),
               ),
-              SizedBox(height: mobile ? 22 : 30),
+              SizedBox(height: mobile ? 18 : 24),
               Wrap(
                 spacing: 24,
                 runSpacing: 4,
@@ -263,9 +259,9 @@ class PortraitArch extends StatelessWidget {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  p.atmosphereTeal.withAlpha(28),
-                                  Colors.transparent,
-                                  p.atmosphereBlue.withAlpha(24),
+                                  p.emerald.withAlpha(34),
+                                  Color.lerp(p.wine, p.mauve, 0.45)!.withAlpha(26),
+                                  p.beige.withAlpha(30),
                                 ],
                               ),
                             ),

@@ -3,25 +3,368 @@
 <head>
   <base href="$FLUTTER_BASE_HREF">
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ayomide Arowolo is a Flutter mobile developer building dependable cross platform apps, from fintech payments to digital health.">
-  <meta name="theme-color" content="#0F1210">
-  <meta property="og:title" content="Ayomide Arowolo, Flutter Developer">
-  <meta property="og:description" content="Thoughtful mobile products that work in the real world.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Ayomide Arowolo is a Flutter mobile developer working across fintech, digital health and communication products, with a focus on dependable mobile experiences.">
+  <meta name="theme-color" content="#151116" id="boot-theme-color">
+  <meta name="color-scheme" content="dark light">
+
+  <meta property="og:title" content="Ayomide Arowolo, Flutter Mobile Developer">
+  <meta property="og:description" content="Selected mobile product work across fintech, digital health and communication.">
   <meta property="og:type" content="website">
-  <title>Ayomide Arowolo, Flutter Developer</title>
+
+  <title>Ayomide Arowolo, Flutter Mobile Developer</title>
   <link rel="icon" type="image/png" href="favicon.png?v=2">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    // Keep the HTML splash aligned with the theme saved by Flutter.
+    // SharedPreferences uses the `flutter.` prefix by default on web.
+    // This key must match the key used by the Dart theme controller.
+    (function () {
+      var root = document.documentElement;
+      var themeMeta = document.getElementById('boot-theme-color');
+      var themeKey = 'flutter.portfolio_theme_mode';
+      var media = window.matchMedia
+        ? window.matchMedia('(prefers-color-scheme: dark)')
+        : null;
+
+      function readSavedMode() {
+        try {
+          var value = window.localStorage.getItem(themeKey);
+          if (!value) return null;
+          value = String(value).replace(/^['"]|['"]$/g, '').toLowerCase();
+          if (value.indexOf('light') !== -1) return 'light';
+          if (value.indexOf('dark') !== -1) return 'dark';
+        } catch (_) {
+          // Storage can be unavailable in private or restricted contexts.
+        }
+        return null;
+      }
+
+      function updateThemeColor() {
+        var explicitMode = root.getAttribute('data-theme');
+        var useDark = explicitMode
+          ? explicitMode === 'dark'
+          : !!(media && media.matches);
+        if (themeMeta) {
+          themeMeta.setAttribute('content', useDark ? '#151116' : '#F5EFE8');
+        }
+      }
+
+      var savedMode = readSavedMode();
+      if (savedMode) root.setAttribute('data-theme', savedMode);
+      updateThemeColor();
+
+      if (media) {
+        var onSystemThemeChange = function () {
+          if (!root.hasAttribute('data-theme')) updateThemeColor();
+        };
+        if (media.addEventListener) media.addEventListener('change', onSystemThemeChange);
+        else if (media.addListener) media.addListener(onSystemThemeChange);
+      }
+    })();
+  </script>
+
   <style>
-    html, body { margin: 0; height: 100%; background: #0F1210; }
+    :root {
+      color-scheme: dark;
+      --page-bg: #151116;
+      --page-ink: #F5EEE7;
+      --page-muted: #AA98A4;
+      --boot-accent: #83C99E;
+      --boot-wine: rgba(116, 49, 73, 0.22);
+      --boot-emerald: rgba(36, 98, 71, 0.20);
+      --boot-mauve: rgba(117, 95, 117, 0.16);
+      --boot-outline: rgba(131, 201, 158, 0.55);
+    }
     @media (prefers-color-scheme: light) {
-      html, body { background: #EFEEE7; }
+      :root:not([data-theme]) {
+        color-scheme: light;
+        --page-bg: #F5EFE8;
+        --page-ink: #31212C;
+        --page-muted: #705C68;
+        --boot-accent: #286548;
+        --boot-wine: rgba(217, 169, 185, 0.34);
+        --boot-emerald: rgba(135, 185, 154, 0.28);
+        --boot-mauve: rgba(181, 160, 182, 0.23);
+        --boot-outline: rgba(40, 101, 72, 0.50);
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --page-bg: #151116;
+      --page-ink: #F5EEE7;
+      --page-muted: #AA98A4;
+      --boot-accent: #83C99E;
+      --boot-wine: rgba(116, 49, 73, 0.22);
+      --boot-emerald: rgba(36, 98, 71, 0.20);
+      --boot-mauve: rgba(117, 95, 117, 0.16);
+      --boot-outline: rgba(131, 201, 158, 0.55);
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --page-bg: #F5EFE8;
+      --page-ink: #31212C;
+      --page-muted: #705C68;
+      --boot-accent: #286548;
+      --boot-wine: rgba(217, 169, 185, 0.34);
+      --boot-emerald: rgba(135, 185, 154, 0.28);
+      --boot-mauve: rgba(181, 160, 182, 0.23);
+      --boot-outline: rgba(40, 101, 72, 0.50);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; min-height: 100%; margin: 0; background: var(--page-bg); }
+    body { overflow-x: hidden; }
+
+    #boot {
+      position: fixed; inset: 0; z-index: 9999;
+      display: grid; place-items: center;
+      padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right))
+               max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+      background-color: var(--page-bg);
+      background-image:
+        radial-gradient(ellipse at 18% 25%, var(--boot-wine), transparent 48%),
+        radial-gradient(ellipse at 78% 70%, var(--boot-emerald), transparent 50%),
+        radial-gradient(ellipse at 52% 48%, var(--boot-mauve), transparent 58%);
+      opacity: 1; transition: opacity 480ms ease;
+      cursor: pointer;
+    }
+    #boot.done { opacity: 0; pointer-events: none; }
+
+    #boot-content {
+      display: flex; width: min(100%, 340px);
+      flex-direction: column; align-items: center; gap: 22px; text-align: center;
+    }
+    #boot svg { display: block; width: min(64vw, 270px); height: auto; overflow: visible; }
+
+    #boot .guide { fill: none; stroke: var(--page-muted); stroke-width: 1; stroke-dasharray: 2 7; stroke-linecap: round; opacity: 0.35; }
+    #boot .trail {
+      fill: none; stroke: var(--boot-accent); stroke-width: 1.6; stroke-linecap: round;
+      stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw-trail 3.2s linear infinite;
+    }
+    #boot .bird path, #boot .bird ellipse, #boot .bird circle { fill: var(--boot-accent); }
+    #boot .bird .wing path { opacity: 0.8; }
+    #boot .bird .tail { opacity: 0.6; }
+
+    /* The line the visitor reads. It changes on a schedule, or on a tap. */
+    #boot-line {
+      margin: 0; min-height: 3.1em;
+      color: var(--page-ink);
+      font: italic 400 21px/1.4 Georgia, "Times New Roman", serif;
+      text-wrap: balance;
+    }
+    #boot-text { display: inline-block; transition: opacity 260ms ease, transform 260ms ease; }
+    #boot-text.out { opacity: 0; transform: translateY(8px); }
+    .dots { display: inline; margin-left: 2px; white-space: nowrap; }
+    .dots[hidden] { display: none; }
+    .dots i { font-style: normal; animation: blink 1.2s infinite both; }
+    .dots i:nth-child(2) { animation-delay: 0.2s; }
+    .dots i:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+
+    #boot-hint {
+      margin: 0; color: var(--page-muted);
+      font: 500 11px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    #boot-help {
+      max-width: 280px; margin: 0; color: var(--page-ink);
+      font: 400 13px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    #boot-retry {
+      min-height: 44px; padding: 10px 18px;
+      border: 1px solid var(--boot-outline); border-radius: 999px;
+      background: transparent; color: var(--page-ink);
+      font: 600 13px/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; cursor: pointer;
+    }
+    #boot-retry:focus-visible { outline: 3px solid var(--boot-accent); outline-offset: 4px; }
+    #boot-help[hidden], #boot-retry[hidden] { display: none; }
+
+    @keyframes draw-trail {
+      0%   { stroke-dashoffset: 100; opacity: 0.6; }
+      85%  { stroke-dashoffset: 0;   opacity: 0.6; }
+      100% { stroke-dashoffset: 0;   opacity: 0; }
+    }
+    @media (max-width: 480px) {
+      #boot-content { gap: 18px; }
+      #boot svg { width: min(68vw, 240px); }
+      #boot-line { font-size: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #boot { transition: none; }
+      #boot .trail { animation: none; stroke-dashoffset: 0; opacity: 0.6; }
+      #boot-text { transition: none; }
+      .dots i { animation: none; opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <div id="boot" aria-busy="true">
+    <div id="boot-content">
+      <svg viewBox="0 0 260 150" aria-hidden="true" focusable="false">
+        <path class="guide" d="M14 108 C62 14, 120 14, 140 74 S206 140, 248 38" />
+        <path class="trail" pathLength="100" d="M14 108 C62 14, 120 14, 140 74 S206 140, 248 38" />
+        <g class="bird" id="boot-bird">
+          <animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto"><mpath href="#boot-route" /></animateMotion>
+          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.9;1" dur="3.2s" repeatCount="indefinite" />
+          <g transform="scale(1.6)">
+            <g class="wing"><path d="M2 0 C-2 -9 -12 -17 -23 -15 C-15 -8 -8 -3 2 1 Z">
+              <animateTransform attributeName="transform" type="scale" values="1 1;1 0.3;1 1" dur="0.55s" repeatCount="indefinite" /></path></g>
+            <g class="wing"><path d="M2 0 C-2 9 -12 17 -23 15 C-15 8 -8 3 2 -1 Z">
+              <animateTransform attributeName="transform" type="scale" values="1 1;1 0.3;1 1" dur="0.55s" repeatCount="indefinite" /></path></g>
+            <path class="tail" d="M-10 0 L-23 -3.5 L-20 0 L-23 3.5 Z" />
+            <ellipse cx="0" cy="0" rx="12" ry="4.2" />
+            <circle cx="11" cy="0" r="3.2" />
+            <path d="M13.5 -1.2 L19.5 0 L13.5 1.2 Z" />
+          </g>
+        </g>
+        <path id="boot-route" fill="none" stroke="none" d="M14 108 C62 14, 120 14, 140 74 S206 140, 248 38" />
+      </svg>
+
+      <p id="boot-line" aria-live="off"><span id="boot-text"></span><span class="dots" id="boot-dots" hidden><i>.</i><i>.</i><i>.</i></span></p>
+      <p id="boot-hint">Tap to hurry me along</p>
+      <p class="sr-only" role="status">Loading the portfolio</p>
+
+      <p id="boot-help" hidden>This is taking longer than expected. Check your connection, then try again.</p>
+      <button id="boot-retry" type="button" hidden>Reload portfolio</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // How long the intro lines are guaranteed to be seen, even if the site
+      // is ready sooner. Set to 0 to show the site the instant it is ready.
+      var MIN_BOOT_MS = 3400;
+      // After this long with no first frame, offer a reload button.
+      var PROBLEM_MS = 32000;
+
+      // t is when each line appears, in milliseconds from the start.
+      var steps = [
+        { t: 0,     text: 'Are you ready to view this portfolio?' },
+        { t: 2600,  text: 'Really sure you are ready?' },
+        { t: 5200,  text: 'It might be too exhilarating.' },
+        { t: 7800,  text: 'You may need to get your eyes feasted on this one.' },
+        { t: 10400, text: 'Okay, deep breath. Shoulders down. Here we go!' },
+        { t: 13200, text: 'The bird is gathering the good stuff and flying it over to you', dots: true },
+        { t: 16000, text: 'Almost there! Somewhere a pixel is putting on its best outfit', dots: true },
+        { t: 18800, text: 'Great things take a moment, and this one is worth it', dots: true },
+        { t: 21600, text: 'One more flap and the curtain goes up!' },
+        { t: 24400, text: 'Thank you for your patience. The scenic route is the best route', dots: true }
+      ];
+
+      var boot = document.getElementById('boot');
+      var bird = document.getElementById('boot-bird');
+      var textEl = document.getElementById('boot-text');
+      var dotsEl = document.getElementById('boot-dots');
+      var hint = document.getElementById('boot-hint');
+      var help = document.getElementById('boot-help');
+      var retry = document.getElementById('boot-retry');
+      var reduced = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var startedAt = Date.now();
+      var index = -1;
+      var nextTimer = null;
+      var finished = false;
+      var ready = false;
+
+      // Freeze SVG motion for visitors who request reduced motion.
+      if (reduced && bird) {
+        var animations = bird.querySelectorAll('animate, animateMotion, animateTransform');
+        for (var i = 0; i < animations.length; i++) animations[i].parentNode.removeChild(animations[i]);
+        bird.setAttribute('transform', 'translate(140 74) rotate(20)');
+      }
+
+      function setLine(step) {
+        textEl.textContent = step.text;
+        if (step.dots) {
+          textEl.appendChild(dotsEl); // keep the dots on the same line as the words
+          dotsEl.hidden = false;
+        } else {
+          dotsEl.hidden = true;
+        }
+        textEl.classList.remove('out');
+      }
+
+      function show(i) {
+        if (finished || i <= index || i >= steps.length) return;
+        window.clearTimeout(nextTimer);
+        var first = index < 0;
+        index = i;
+        var step = steps[i];
+        if (first || reduced) {
+          setLine(step);
+        } else {
+          textEl.classList.add('out');
+          window.setTimeout(function () { if (!finished) setLine(step); }, 260);
+        }
+        if (i + 1 < steps.length) {
+          var gap = steps[i + 1].t - step.t;
+          nextTimer = window.setTimeout(function () { show(i + 1); }, gap);
+        } else if (hint) {
+          hint.hidden = true;
+        }
+      }
+
+      // A tap or Enter skips to the next line.
+      function advance() { show(index + 1); }
+      boot.addEventListener('click', function (e) {
+        if (e.target === retry) return;
+        advance();
+      });
+      window.addEventListener('keydown', function (e) {
+        if (!finished && e.key === 'Enter') advance();
+      });
+
+      function showProblem() {
+        if (finished) return;
+        window.clearTimeout(nextTimer);
+        textEl.textContent = 'The portfolio is taking longer to start';
+        dotsEl.hidden = true;
+        if (hint) hint.hidden = true;
+        if (help) help.hidden = false;
+        if (retry) retry.hidden = false;
+      }
+
+      function reveal() {
+        if (finished) return;
+        finished = true;
+        window.clearTimeout(nextTimer);
+        window.clearTimeout(problemTimer);
+        boot.setAttribute('aria-busy', 'false');
+        boot.classList.add('done');
+        window.setTimeout(function () {
+          if (boot.parentNode) boot.parentNode.removeChild(boot);
+        }, reduced ? 0 : 520);
+      }
+
+      // Flutter paints its first frame: wait out the minimum, then reveal.
+      function onFirstFrame() {
+        if (ready) return;
+        ready = true;
+        var wait = Math.max(0, MIN_BOOT_MS - (Date.now() - startedAt));
+        window.setTimeout(reveal, wait);
+      }
+
+      var problemTimer = window.setTimeout(showProblem, PROBLEM_MS);
+      retry.addEventListener('click', function () { window.location.reload(); });
+
+      // The bootstrap script is added after this code runs, so listen on the
+      // window in the capture phase to hear its load failure.
+      window.addEventListener('error', function (e) {
+        var t = e.target;
+        if (t && t.id === 'flutter-bootstrap') showProblem();
+      }, true);
+
+      window.addEventListener('flutter-first-frame', onFirstFrame, { once: true });
+
+      show(0);
+    })();
+  </script>
+
+  <script id="flutter-bootstrap" src="flutter_bootstrap.js" async></script>
 </body>
 </html>

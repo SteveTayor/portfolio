@@ -16,10 +16,20 @@ class Note {
 abstract final class Story {
   /// Words for the moving technology bands.
   static const List<String> bandOne = [
-    'Flutter', 'Dart', 'BLoC', 'Riverpod', 'Clean Architecture', 'CustomPainter',
+    'Flutter',
+    'Dart',
+    'BLoC',
+    'Riverpod',
+    'Clean Architecture',
+    'CustomPainter',
   ];
   static const List<String> bandTwo = [
-    'REST APIs', 'WebSocket', 'Firebase', 'JWT', 'Secure Storage', 'Continuous delivery',
+    'REST APIs',
+    'WebSocket',
+    'Firebase',
+    'JWT',
+    'Secure Storage',
+    'Continuous delivery',
   ];
 
   static const String aboutOne =
@@ -35,13 +45,19 @@ abstract final class Story {
       'code, and practical solutions that solve the actual problem.';
 
   static const List<Note> principles = [
-    Note('Build for real use',
-        'Features should work beyond the ideal demo scenario.'),
-    Note('Respect the existing system',
-        'New functionality must fit the architecture and avoid regressions.'),
-    Note('Make complexity manageable',
-        'Readable code, clear state and predictable behaviour keep products '
-            'easy to maintain.'),
+    Note(
+      'Build for real use',
+      'Features should work beyond the ideal demo scenario.',
+    ),
+    Note(
+      'Respect the existing system',
+      'New functionality must fit the architecture and avoid regressions.',
+    ),
+    Note(
+      'Make complexity manageable',
+      'Readable code, clear state and predictable behaviour keep products '
+          'easy to maintain.',
+    ),
   ];
 
   static const List<Note> expertise = [
@@ -51,14 +67,33 @@ abstract final class Story {
           'component design, state management, responsive layouts, '
           'navigation and routing, and theme systems that keep the interface '
           'consistent.',
-      ['Flutter', 'Dart', 'BLoC', 'Riverpod', 'go_router', 'Clean Architecture', 'CustomPainter', 'AnimationController'],
+      [
+        'Flutter',
+        'Dart',
+        'BLoC',
+        'Riverpod',
+        'go_router',
+        'Clean Architecture',
+        'CustomPainter',
+        'AnimationController',
+      ],
     ),
     Note(
       'Backend integration and services',
       'REST APIs and JSON, Firebase Authentication, session management, and '
           'the states a real product needs: loading, error, empty and retry, '
           'plus secure local storage and network connectivity handling.',
-      ['REST APIs', 'WebSocket', 'Firebase Authentication', 'Firestore', 'Cloud Functions', 'JWT', 'Secure Storage', 'Paystack SDK', 'KYC and liveness APIs'],
+      [
+        'REST APIs',
+        'WebSocket',
+        'Firebase Authentication',
+        'Firestore',
+        'Cloud Functions',
+        'JWT',
+        'Secure Storage',
+        'Paystack SDK',
+        'KYC and liveness APIs',
+      ],
     ),
     Note(
       'Quality, maintenance and delivery',
@@ -66,13 +101,20 @@ abstract final class Story {
           'shipped products, resolving interface and state issues, handling '
           'asynchronous data, and Git based development with testing across '
           'supported devices.',
-      ['Git', 'DevTools profiling', 'Unit and widget testing', 'Continuous delivery', 'Local Notifications', 'Alarm Manager'],
+      [
+        'Git',
+        'DevTools profiling',
+        'Unit and widget testing',
+        'Continuous delivery',
+        'Local Notifications',
+        'Alarm Manager',
+      ],
     ),
   ];
 
   static const List<Role> roles = [
     Role(
-      'Flutter Developer · Product Engineering',
+      'Mobile Developer · Product Engineering',
       'Bundlegram, fintech payment platform',
       'June 2025 to September 2026',
       'Contributed to the ongoing development of a live fintech application, '
@@ -87,7 +129,7 @@ abstract final class Story {
           'fintech application.',
     ),
     Role(
-      'Lead Flutter Developer',
+      'Lead Mobile Developer',
       'Medherence, digital health platform',
       'January 2025 to June 2025',
       'Architected a health application aligned with HIPAA using Clean '
@@ -113,17 +155,25 @@ abstract final class Story {
   ];
 
   static const List<Note> process = [
-    Note('Understand',
-        'Clarify the requirement, the existing structure, the problem the '
-            'user has and the acceptance criteria before building.'),
-    Note('Plan',
-        'Choose an approach that fits the architecture, name the '
-            'dependencies, and decide how errors and edge cases are handled.'),
-    Note('Build and verify',
-        'Implement the feature, connect the services, handle loading and '
-            'error states, and test the behaviour that matters.'),
-    Note('Refine and deliver',
-        'Review maintainability, responsiveness, regression risk and the '
-            'quality of the final experience.'),
+    Note(
+      'Understand',
+      'Clarify the requirement, the existing structure, the problem the '
+          'user has and the acceptance criteria before building.',
+    ),
+    Note(
+      'Plan',
+      'Choose an approach that fits the architecture, name the '
+          'dependencies, and decide how errors and edge cases are handled.',
+    ),
+    Note(
+      'Build and verify',
+      'Implement the feature, connect the services, handle loading and '
+          'error states, and test the behaviour that matters.',
+    ),
+    Note(
+      'Refine and deliver',
+      'Review maintainability, responsiveness, regression risk and the '
+          'quality of the final experience.',
+    ),
   ];
 }

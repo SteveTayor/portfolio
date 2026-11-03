@@ -25,11 +25,12 @@ class StageBlock extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [
                   p.bg,
-                  Color.lerp(p.bg, p.atmosphereTeal, 0.14)!,
-                  Color.lerp(p.bg, p.atmosphereBlue, 0.10)!,
+                  Color.lerp(p.bg, p.wine, 0.18)!,
+                  Color.lerp(p.bg, p.emerald, 0.20)!,
+                  Color.lerp(p.bg, p.mauve, 0.12)!,
                   p.bg,
                 ],
-                stops: const [0.0, 0.28, 0.68, 1.0],
+                stops: const [0.0, 0.24, 0.50, 0.78, 1.0],
               ),
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(56),

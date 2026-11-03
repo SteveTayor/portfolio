@@ -23,11 +23,12 @@ class WorkSection extends StatelessWidget {
         end: Alignment.bottomRight,
         colors: [
           p.surface,
-          Color.lerp(p.surface, p.atmosphereTeal, 0.12)!,
-          Color.lerp(p.surface, p.atmosphereBlue, 0.10)!,
+          Color.lerp(p.surface, p.emerald, 0.16)!,
+          Color.lerp(p.surface, p.beige, 0.14)!,
+          Color.lerp(p.surface, p.rose, 0.06)!,
           p.surface,
         ],
-        stops: const [0.0, 0.34, 0.72, 1.0],
+        stops: const [0.0, 0.26, 0.54, 0.80, 1.0],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

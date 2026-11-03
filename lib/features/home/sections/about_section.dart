@@ -19,10 +19,11 @@ class AboutSection extends StatelessWidget {
         end: Alignment.bottomRight,
         colors: [
           p.surface,
-          Color.lerp(p.surface, p.atmosphereRose, 0.07)!,
-          Color.lerp(p.surface, p.atmosphereTeal, 0.06)!,
+          Color.lerp(p.surface, p.rose, 0.13)!,
+          Color.lerp(p.surface, p.mauve, 0.11)!,
+          Color.lerp(p.surface, p.beige, 0.08)!,
         ],
-        stops: const [0.0, 0.52, 1.0],
+        stops: const [0.0, 0.38, 0.72, 1.0],
       ),
       child: LayoutBuilder(
         builder: (context, c) {

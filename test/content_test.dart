@@ -8,12 +8,12 @@ void main() {
     for (final p in Projects.shown) {
       expect(p.images.isNotEmpty, isTrue);
       expect(p.summary.isNotEmpty, isTrue);
-      expect(Projects.byId(p.id).id, p.id);
+      expect(Projects.byId(p.id)?.id, p.id);
     }
   });
 
   test('unknown ids fall back to the first project', () {
-    expect(Projects.byId('missing').id, Projects.shown.first.id);
+    expect(Projects.byId('missing')?.id, Projects.shown.first.id);
   });
 
   test('next wraps around to the first project', () {

@@ -23,9 +23,11 @@ class ExperienceSection extends StatelessWidget {
         end: Alignment.bottomRight,
         colors: [
           p.surface,
-          Color.lerp(p.surface, p.atmosphereTeal, 0.09)!,
+          Color.lerp(p.surface, p.wine, 0.12)!,
+          Color.lerp(p.surface, p.mauve, 0.10)!,
           p.surface,
         ],
+        stops: const [0.0, 0.38, 0.76, 1.0],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,8 +108,8 @@ class _ResumeCallout extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [
             p.raised,
-            Color.lerp(p.raised, p.atmosphereTeal, 0.16)!,
-            Color.lerp(p.raised, p.atmosphereBlue, 0.12)!,
+            Color.lerp(p.raised, p.emerald, 0.16)!,
+            Color.lerp(p.raised, p.beige, 0.12)!,
           ],
         ),
       ),

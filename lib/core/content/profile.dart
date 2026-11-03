@@ -1,7 +1,7 @@
 /// Verified professional identity. Edit values here, never in the layout.
 abstract final class Profile {
   static const String name = 'Ayomide Arowolo';
-  static const String title = 'Flutter Developer';
+  static const String title = 'Mobile Developer';
   static const String experience = '4+ years';
   static const String email = 'ayomidearose75@gmail.com';
   static const String github = 'https://github.com/SteveTayor';
@@ -19,12 +19,15 @@ abstract final class Profile {
   static const String location = 'Nigeria';
 
   /// Human, product-led introduction: specific without a canned "I build" line.
-  static const String heroTitle = 'The little things are the whole experience.';
+  static const String heroTitlePrefix = 'Mobile ';
+  static const String heroTitleEmphasis = 'Developer.';
+  static const String heroTitle = 'Mobile Developer.';
   static const String line =
-      'A payment that makes sense. A reminder that arrives on time. A '
-      'screen that stays responsive when it matters. I care about the '
-      'careful engineering that makes these moments feel simple.';
-
+      'Payments, identity verification and real-time communication '
+      'are only as reliable as the systems behind them. My work has '
+      'included authentication, KYC liveness checks to help deter '
+      'identity fraud, and service integrations that keep mobile '
+      'experiences dependable.';
   static const String closing =
       'Thoughtful software starts with understanding the problem.';
 }

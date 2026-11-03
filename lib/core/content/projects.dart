@@ -34,13 +34,14 @@ class Project {
 }
 
 List<String> _shots(String id, int count) => [
-      for (var i = 1; i <= count; i++) 'assets/projects/$id/$i.webp',
-    ];
+  for (var i = 1; i <= count; i++) 'assets/projects/$id/$i.webp',
+];
 
 abstract final class Projects {
   /// Projects with screenshots, in display order.
-  static final List<Project> shown =
-      all.where((p) => p.images.isNotEmpty).toList();
+  static final List<Project> shown = all
+      .where((p) => p.images.isNotEmpty)
+      .toList();
 
   /// Returns null for unknown IDs so a bad deep link never masquerades as
   /// the first project in the portfolio.
@@ -67,7 +68,7 @@ abstract final class Projects {
           'Contributed to the ongoing development of a live fintech app, '
           'including transactional features and improvements to everyday '
           'payment journeys.',
-      role: 'Flutter Developer · Product Engineering',
+      role: 'Mobile Developer · Product Engineering',
       problem:
           'An existing fintech product needed new customer-facing features '
           'and a dependable experience across its core payment journeys.',
@@ -85,6 +86,12 @@ abstract final class Projects {
         'Dart',
         'Product feature delivery',
         'App performance',
+        'Swagger',
+        'Figma',
+        'Firebase Messaging',
+        'Google Cloud Services',
+        'Play Service Account',
+        'Laravel',
       ],
       images: _shots('bundlegram', 6),
       outcome:
@@ -100,7 +107,7 @@ abstract final class Projects {
       summary:
           'Lead developer of a digital health platform aligned with HIPAA: '
           'medication adherence, reminders and clinical data visualisation.',
-      role: 'Lead Flutter Developer',
+      role: 'Lead Mobile Developer',
       problem:
           'A digital health platform needed a maintainable Flutter '
           'application for medication adherence: animated clinical timelines, '
@@ -126,8 +133,11 @@ abstract final class Projects {
         'Clean Architecture',
         'Riverpod',
         'Secure Storage',
+        'MySQL',
+        'Django',
         'Local Notifications',
         'Alarm Manager',
+        'Figma',
       ],
       images: _shots('medherence', 6),
     ),
@@ -153,7 +163,13 @@ abstract final class Projects {
           'integrated the experience into the existing Flutter application.',
       technologies: [
         'Flutter',
+        'Firebase Messaging',
+        'Firebase',
+        'Figma',
+        'jRPC',
         'Firebase Authentication',
+        'Firestore',
+        'Firebase Image Processing',
       ],
       images: _shots('tradelenda', 4),
     ),
@@ -183,6 +199,10 @@ abstract final class Projects {
         'QR scanning',
         'CustomPainter',
         'Firebase',
+        'FlutterFlow',
+        'Django',
+        'WebRTC',
+        'Automated testing',
       ],
       images: _shots('doorbell', 5),
     ),
@@ -212,6 +232,9 @@ abstract final class Projects {
         'Firebase Firestore',
         'Cloud Functions',
         'WebSocket',
+        'Audio streaming',
+        'Lazy loading',
+        'Asset caching',
       ],
       images: _shots('musicchatroom', 1),
     ),

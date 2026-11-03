@@ -18,9 +18,11 @@ class ExpertiseSection extends StatelessWidget {
         end: Alignment.bottomLeft,
         colors: [
           p.bg,
-          Color.lerp(p.bg, p.atmosphereBlue, 0.08)!,
+          Color.lerp(p.bg, p.beige, 0.12)!,
+          Color.lerp(p.bg, p.emerald, 0.08)!,
           p.bg,
         ],
+        stops: const [0.0, 0.42, 0.78, 1.0],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

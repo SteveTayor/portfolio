@@ -143,7 +143,7 @@ class _IntroStageState extends State<IntroStage>
                               gradient: RadialGradient(
                                 radius: 1.05,
                                 colors: [
-                                  p.atmosphereTeal.withAlpha(95),
+                                  p.emerald.withAlpha(95),
                                   Colors.transparent,
                                 ],
                               ),
@@ -162,7 +162,7 @@ class _IntroStageState extends State<IntroStage>
                               gradient: RadialGradient(
                                 radius: 1.0,
                                 colors: [
-                                  p.atmosphereBlue.withAlpha(83),
+                                  p.wine.withAlpha(72),
                                   Colors.transparent,
                                 ],
                               ),
@@ -181,7 +181,26 @@ class _IntroStageState extends State<IntroStage>
                               gradient: RadialGradient(
                                 radius: 1.0,
                                 colors: [
-                                  p.atmosphereRose.withAlpha(48),
+                                  p.rose.withAlpha(48),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: vw * 0.26,
+                        bottom: -vh * 0.28,
+                        width: vw * 0.62,
+                        height: vh * 0.72,
+                        child: IgnorePointer(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                radius: 1.0,
+                                colors: [
+                                  p.mauve.withAlpha(42),
                                   Colors.transparent,
                                 ],
                               ),

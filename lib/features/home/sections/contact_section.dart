@@ -116,7 +116,8 @@ class _ContactBodyState extends State<_ContactBody>
         });
         return;
       }
-      var msg = 'The message could not be sent. Please try again, or write '
+      var msg =
+          'The message could not be sent. Please try again, or write '
           'to ${Profile.email}.';
       try {
         final data = jsonDecode(res.body);
@@ -134,7 +135,8 @@ class _ContactBodyState extends State<_ContactBody>
       if (!mounted) return;
       setState(() {
         _sending = false;
-        _error = 'There was no connection. Please try again, or write to '
+        _error =
+            'There was no connection. Please try again, or write to '
             '${Profile.email}.';
       });
     }
@@ -148,9 +150,9 @@ class _ContactBodyState extends State<_ContactBody>
 
   InputDecoration _field(Palette p, String label) {
     OutlineInputBorder border(Color c, [double w = 1]) => OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: c, width: w),
-        );
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide(color: c, width: w),
+    );
     return InputDecoration(
       labelText: label,
       labelStyle: Typo.label(p, size: 14),
@@ -228,8 +230,15 @@ class _ContactBodyState extends State<_ContactBody>
                 Expanded(
                   child: Semantics(
                     liveRegion: true,
-                    child: Text(_error!,
-                        style: Typo.body(p, size: 13, color: p.text, height: 1.35)),
+                    child: Text(
+                      _error!,
+                      style: Typo.body(
+                        p,
+                        size: 13,
+                        color: p.text,
+                        height: 1.35,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -248,7 +257,7 @@ class _ContactBodyState extends State<_ContactBody>
         ),
         const SizedBox(height: 12),
         Text(
-          'Thank you. I will reply to the address you gave.',
+          'Your message has been received. I’ll be in touch soon.',
           style: Typo.body(p, size: 16, height: 1.45),
         ),
         const SizedBox(height: 14),
@@ -271,14 +280,22 @@ class _ContactBodyState extends State<_ContactBody>
               decoration: BoxDecoration(
                 color: p.raised.withAlpha(120 + (lit * 120).round()),
                 borderRadius: BorderRadius.circular(28),
-                border: Border.all(color: Color.lerp(p.border, p.accent, lit * 0.5)!),
+                border: Border.all(
+                  color: Color.lerp(p.border, p.beige, lit * 0.5)!,
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _on ? 'Write to me' : 'Switch on the lamp to write a message',
-                    style: Typo.label(p, size: 14, color: _on ? p.accent : p.muted),
+                    _on
+                        ? 'Write to me'
+                        : 'Switch on the lamp to write a message',
+                    style: Typo.label(
+                      p,
+                      size: 14,
+                      color: _on ? p.beige : p.muted,
+                    ),
                   ),
                   const SizedBox(height: 22),
                   ExcludeSemantics(
@@ -336,12 +353,17 @@ class _ContactBodyState extends State<_ContactBody>
               animation: _light,
               builder: (context, _) => CustomPaint(
                 size: Size(stacked ? 300 : 400, stacked ? 400 : 540),
-                painter: _LampPainter(p, Curves.easeOut.transform(_light.value)),
+                painter: _LampPainter(
+                  p,
+                  Curves.easeOut.transform(_light.value),
+                ),
               ),
             ),
             const SizedBox(height: 8),
             Pressable(
-              label: _on ? 'Switch off the contact lamp' : 'Switch on the contact lamp',
+              label: _on
+                  ? 'Switch off the contact lamp'
+                  : 'Switch on the contact lamp',
               toggled: _on,
               onTap: _toggle,
               builder: (context, hot) => Row(
@@ -363,7 +385,9 @@ class _ContactBodyState extends State<_ContactBody>
                     child: AnimatedAlign(
                       duration: const Duration(milliseconds: 260),
                       curve: Curves.easeOutBack,
-                      alignment: _on ? Alignment.centerRight : Alignment.centerLeft,
+                      alignment: _on
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: Container(
                         width: 26,
                         height: 26,
@@ -392,7 +416,10 @@ class _ContactBodyState extends State<_ContactBody>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Contact', style: Typo.label(p, color: p.accent, size: 14)),
+                  Text(
+                    'Contact',
+                    style: Typo.label(p, color: p.accent, size: 14),
+                  ),
                   const SizedBox(height: 18),
                   Text(
                     'Have a project in mind?',
@@ -404,15 +431,18 @@ class _ContactBodyState extends State<_ContactBody>
                     onTap: () => openExternal('mailto:${Profile.email}'),
                     builder: (context, on) => AnimatedDefaultTextStyle(
                       duration: const Duration(milliseconds: 200),
-                      style: Typo.display(
-                        p,
-                        mobile ? 20 : 28,
-                        height: 1.1,
-                        color: on ? p.accent : p.text,
-                      ).copyWith(
-                        decoration: on ? TextDecoration.underline : TextDecoration.none,
-                        decorationColor: p.accent,
-                      ),
+                      style:
+                          Typo.display(
+                            p,
+                            mobile ? 20 : 28,
+                            height: 1.1,
+                            color: on ? p.accent : p.text,
+                          ).copyWith(
+                            decoration: on
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                            decorationColor: p.accent,
+                          ),
                       child: Text(Profile.email),
                     ),
                   ),
@@ -423,11 +453,20 @@ class _ContactBodyState extends State<_ContactBody>
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       TextLink(label: 'Copy email', onTap: _copy),
-                      TextLink(label: 'GitHub', onTap: () => openExternal(Profile.github)),
+                      TextLink(
+                        label: 'GitHub',
+                        onTap: () => openExternal(Profile.github),
+                      ),
                       if (Profile.linkedin.isNotEmpty)
-                        TextLink(label: 'LinkedIn', onTap: () => openExternal(Profile.linkedin)),
+                        TextLink(
+                          label: 'LinkedIn',
+                          onTap: () => openExternal(Profile.linkedin),
+                        ),
                       if (_note != null)
-                        Text(_note!, style: Typo.label(p, size: 13, color: p.accent)),
+                        Text(
+                          _note!,
+                          style: Typo.label(p, size: 13, color: p.accent),
+                        ),
                     ],
                   ),
                 ],
@@ -452,7 +491,11 @@ class _ContactBodyState extends State<_ContactBody>
               child: stacked
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [words, const SizedBox(height: 56), Center(child: lamp)],
+                      children: [
+                        words,
+                        const SizedBox(height: 56),
+                        Center(child: lamp),
+                      ],
                     )
                   : Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -498,14 +541,17 @@ class _LampPainter extends CustomPainter {
 
     // Light on the desk: a wide soft pool and a blurred cone.
     if (on > 0) {
-      final pool = Rect.fromCenter(center: Offset(cx, floor + 4), width: 380, height: 70);
+      final pool = Rect.fromCenter(
+        center: Offset(cx, floor + 4),
+        width: 380,
+        height: 70,
+      );
       canvas.drawOval(
         pool,
         Paint()
-          ..shader = RadialGradient(colors: [
-            light.withAlpha((on * 70).round()),
-            light.withAlpha(0),
-          ]).createShader(pool),
+          ..shader = RadialGradient(
+            colors: [light.withAlpha((on * 70).round()), light.withAlpha(0)],
+          ).createShader(pool),
       );
       final cone = Path()
         ..moveTo(cx - 78, 205)
@@ -527,7 +573,11 @@ class _LampPainter extends CustomPainter {
     }
 
     // Base disc with a soft highlight.
-    final base = Rect.fromCenter(center: Offset(cx, floor), width: 150, height: 20);
+    final base = Rect.fromCenter(
+      center: Offset(cx, floor),
+      width: 150,
+      height: 20,
+    );
     canvas.drawOval(
       base,
       Paint()
@@ -589,14 +639,21 @@ class _LampPainter extends CustomPainter {
 
     // The lit opening and a soft halo around it.
     if (on > 0) {
-      final mouth = Rect.fromCenter(center: Offset(cx, 208), width: 150, height: 16);
+      final mouth = Rect.fromCenter(
+        center: Offset(cx, 208),
+        width: 150,
+        height: 16,
+      );
       canvas.drawOval(
         mouth.inflate(14),
         Paint()
           ..color = light.withAlpha((on * 90).round())
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 16),
       );
-      canvas.drawOval(mouth, Paint()..color = light.withAlpha((on * 255).round()));
+      canvas.drawOval(
+        mouth,
+        Paint()..color = light.withAlpha((on * 255).round()),
+      );
     } else {
       canvas.drawOval(
         Rect.fromCenter(center: Offset(cx, 208), width: 150, height: 16),

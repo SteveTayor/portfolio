@@ -160,7 +160,8 @@ abstract final class Projects {
           'the scope can be confirmed.',
       approach:
           'Used Firebase Authentication to support the sign-in workflow and '
-          'integrated the experience into the existing Flutter application.',
+          'integrated the experience into the existing Flutter application. '
+          'Integrated KYC Liveness for easy identification for fraud prevention, and implemented Firebase Messaging for push notifications.',
       technologies: [
         'Flutter',
         'Firebase Messaging',

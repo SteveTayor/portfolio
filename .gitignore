@@ -50,3 +50,27 @@ app.*.map.json
 
 # FlutterGen output
 lib/gen/
+
+firebase-debug.log
+./firebase
+# ==========================================
+# Firebase Hosting / Local Firebase
+# ==========================================
+
+# Firebase local cache and generated files
+.firebase/
+.firebase/
+
+# Firebase debug logs
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# ==========================================
+# Firebase Credentials / Private Keys
+# ==========================================
+
+# Never commit Firebase service account credentials
+*firebase-adminsdk*.json
+*service-account*.json
+*serviceAccount*.json
